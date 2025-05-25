@@ -14,6 +14,7 @@ type Insight = {
   tone: string
   category: string
   created_at: string
+  post_id: string
 }
 
 export default function Home() {
