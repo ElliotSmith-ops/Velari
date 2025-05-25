@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 type Insight = {
   id: string
-  post_id?: string
+  post_id: string | null
   summary: string
   pain_point: string
   idea: string
@@ -28,7 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchInsights = async () => {
-      let query = supabase.from('insights').select('*')
+      let query = supabase.from('insights').select('id, post_id, summary, pain_point, idea, urgency_score, novelty_score, tone, category, created_at')
 
       if (category) query = query.eq('category', category)
       if (tone) query = query.eq('tone', tone)
