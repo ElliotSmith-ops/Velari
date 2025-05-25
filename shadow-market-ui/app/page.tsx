@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 type Insight = {
   id: string
+  post_id?: string
   summary: string
   pain_point: string
   idea: string
@@ -14,7 +15,7 @@ type Insight = {
   tone: string
   category: string
   created_at: string
-  post_id: string
+  
 }
 
 export default function Home() {
