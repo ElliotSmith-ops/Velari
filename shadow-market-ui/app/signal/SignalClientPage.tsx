@@ -1,33 +1,68 @@
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
+import Link from 'next/link'
+import Image from 'next/image'
 
+export default function SignalClientPage() {
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
 
-export default async function SignalPage({ params }: { params: { id: string } }) {
-  // Get current insight
-  const { data: insight, error } = await supabase
-    .from('insights')
-    .select('*')
-    .eq('id', params.id)
-    .single()
+  const [insight, setInsight] = useState<any>(null)
+  const [related, setRelated] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  if (!insight || error) return notFound()
+  useEffect(() => {
+    if (!id) return
 
-  // Get related insights (by same sector, not the current ID)
-  const { data: related } = await supabase
-    .from('insights')
-    .select('*')
-    .neq('id', params.id)
-    .or(`sector.eq.${insight.sector},tone.eq.${insight.tone}`)
-    .limit(3)
+    const fetchInsight = async () => {
+      const { data: insightData, error } = await supabase
+        .from('insights')
+        .select('*')
+        .eq('id', id)
+        .single()
 
-  const copyText = `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${params.id}`
+      if (!insightData || error) {
+        setInsight(null)
+        setLoading(false)
+        return
+      }
+
+      setInsight(insightData)
+
+      const { data: relatedData } = await supabase
+        .from('insights')
+        .select('*')
+        .neq('id', id)
+        .or(`sector.eq.${insightData.sector},tone.eq.${insightData.tone}`)
+        .limit(3)
+
+      setRelated(relatedData || [])
+      setLoading(false)
+    }
+
+    fetchInsight()
+  }, [id])
+
+  if (!id) {
+    return <main className="min-h-screen text-white p-10">❌ No signal ID provided in URL.</main>
+  }
+
+  if (loading) {
+    return <main className="min-h-screen text-white p-10">Loading...</main>
+  }
+
+  if (!insight) {
+    return <main className="min-h-screen text-white p-10">❌ Signal not found.</main>
+  }
+
+  const copyText = `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal?id=${id}`
 
   return (
     <main className="min-h-screen max-w-3xl mx-auto w-full px-4 sm:px-6 text-white py-10">
-      {/* LOGO + BACK NAV */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-3 sm:gap-0">
         <Link href="/" className="flex items-center space-x-3">
           <Image
@@ -43,7 +78,6 @@ export default async function SignalPage({ params }: { params: { id: string } })
         </Link>
       </div>
 
-      {/* INSIGHT CARD */}
       <div className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden mb-10">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-200 mb-4 break-words">
           {insight.signal}
@@ -62,24 +96,24 @@ export default async function SignalPage({ params }: { params: { id: string } })
           <span className="neon-tag">🎭 Tone: {insight.tone}</span>
           <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
           <span className="neon-tag">💡 Novelty: {insight.novelty_score}</span>
-          <span className="neon-tag">{new Date(insight.created_at).toLocaleDateString()}</span>
+          <span className="neon-tag">
+            {new Date(insight.created_at).toLocaleDateString()}
+          </span>
           {insight.post_id && (
             <a
               href={insight.post_id}
               target="_blank"
               rel="noopener noreferrer"
-              className="blue-neon-tag hover:underline"
+              className="neon-tag hover:underline"
             >
-              🔗 Link
+              🔗 Reddit
             </a>
           )}
         </div>
 
-        {/* COPY BUTTON */}
         <CopyButton text={copyText} />
       </div>
 
-      {/* RELATED INSIGHTS */}
       {related && related.length > 0 && (
         <div>
           <h2 className="text-lg text-purple-300 font-semibold mb-4">
@@ -89,7 +123,7 @@ export default async function SignalPage({ params }: { params: { id: string } })
             {related.map((item) => (
               <Link
                 key={item.id}
-                href={`/signal/${item.id}`}
+                href={`/signal?id=${item.id}`}
                 className="block rounded-xl border border-purple-500 bg-zinc-900/70 p-4 hover:bg-zinc-800 transition"
               >
                 <h3 className="text-sm font-bold text-purple-200 mb-2">

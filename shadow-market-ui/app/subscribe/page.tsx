@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import SubscribeForm from '@/components/SubscribeForm'
 
+
+
 export default function SubscribePage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white flex items-center justify-center px-4 py-16">

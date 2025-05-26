@@ -8,7 +8,6 @@ import CopyButton from '@/components/CopyButton'
 import SubscribeForm from '@/components/SubscribeForm'
 
 
-
 type Insight = {
   id: string
   post_id: string | null
@@ -189,7 +188,7 @@ export default function Home() {
               className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden"
             >
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-purple-200 mb-3 break-words">
-                <Link href={`/signal/${insight.id}`} className="hover:underline">
+              <Link href={`/signal?id=${insight.id}`} className="hover:underline">
                 {insight.signal} <span aria-hidden>↗</span>
                 </Link>
               </h2>
