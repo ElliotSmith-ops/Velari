@@ -6,16 +6,16 @@ import Image from 'next/image'
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
 
 export const metadata = {
-  title: 'Occulta – Shadow Market',
+  title: 'Occulta - AI trend finder',
   description: 'Live radar of emerging startup opportunities before they go mainstream.',
   openGraph: {
-    title: 'Occulta – Shadow Market',
+    title: 'Occulta – AI trend finder',
     description: 'Live radar of emerging startup opportunities before they go mainstream.',
     url: 'https://occulta.ai',
     siteName: 'Occulta',
     images: [
       {
-        url: 'https://occulta.ai/occulta-tinylogo.png', // Make sure this image exists in /public
+        url: 'https://occulta.ai/og-logo.png', // Make sure this image exists in /public
         width: 1200,
         height: 630,
         alt: 'Occulta logo glowing on black background',
@@ -26,9 +26,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Occulta – Shadow Market',
+    title: 'Occulta – AI trend finder',
     description: 'Discover rising startup trends in real-time.',
-    images: ['https://occulta.ai/occulta-tinylogo.png'],
+    images: ['https://occulta.ai/og-logo.png'],
   },
 }
 
