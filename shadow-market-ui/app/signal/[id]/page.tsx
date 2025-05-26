@@ -3,15 +3,9 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
-import { type Metadata, type ResolvingMetadata } from 'next'
 
-type PageProps = {
-  params: {
-    id: string
-  }
-}
 
-export default async function SignalPage({ params }: PageProps) {
+export default async function SignalPage({ params }: { params: { id: string } }) {
   // Get current insight
   const { data: insight, error } = await supabase
     .from('insights')
