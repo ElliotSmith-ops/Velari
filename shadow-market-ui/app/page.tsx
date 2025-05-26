@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import Image from 'next/image'
+import Link from 'next/link'
+import CopyButton from '@/components/CopyButton'
+import SubscribeForm from '@/components/SubscribeForm'
+
+
 
 type Insight = {
   id: string
@@ -24,6 +29,19 @@ export default function Home() {
   const [search, setSearch] = useState('')
   const [minUrgency, setMinUrgency] = useState(1)
   const [minNovelty, setMinNovelty] = useState(1)
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const { error } = await supabase.from('subscribers').insert({ email })
+    if (error) {
+      setStatus('error')
+    } else {
+      setStatus('success')
+      setEmail('')
+    }
+  }
 
   useEffect(() => {
     const fetchInsights = async () => {
@@ -141,6 +159,21 @@ export default function Home() {
           </div>
         </div>
 
+        {/* EMAIL CAPTURE */}
+        <section className="py-10 border-t border-zinc-700">
+<div className="mt-1 max-w-xl text-left">
+<h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer">
+  <Link href="/subscribe">📬 Stay in the loop</Link>
+</h2>
+<p className="text-sm text-gray-400 mb-4">Subscribe for top insights delivered daily.</p>
+
+<SubscribeForm />
+  {status === 'success' && <p className="text-green-400 mt-2">✅ Subscribed!</p>}
+  {status === 'error' && <p className="text-red-400 mt-2">❌ Something went wrong.</p>}
+</div>
+</section>
+
+
         {/* EMPTY STATE */}
         {insights.length === 0 && (
           <p className="rounded-2xl border border-purple-500 bg-zinc-900/80 shadow-md p-6 mb-6 text-center">
@@ -156,7 +189,9 @@ export default function Home() {
               className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden"
             >
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-purple-200 mb-3 break-words">
-                {insight.signal}
+                <Link href={`/signal/${insight.id}`} className="hover:underline">
+                {insight.signal} <span aria-hidden>↗</span>
+                </Link>
               </h2>
 
               <p className="text-sm text-zinc-400 mt-3 break-words">
@@ -177,21 +212,14 @@ export default function Home() {
                     href={insight.post_id}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="neon-tag cursor-pointer hover:underline"
+                    className="blue-neon-tag cursor-pointer hover:underline"
                   >
                     🔗 Link
                   </a>
                 )}
-              <button
-                onClick={() => {
-                const copyText = `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nRead more at https://occulta.ai`;
-                navigator.clipboard.writeText(copyText)
-                .then(() => alert('✅ Insight copied!'))
-                .catch(() => alert('❌ Failed to copy.'));
-                }}
-                className="blue-neon-tag inline-block rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-xs text-white hover:bg-zinc-700 transition">
-                  📋 Copy
-              </button>
+              <CopyButton
+                text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+              />
               </div>
             </div>
           ))}
