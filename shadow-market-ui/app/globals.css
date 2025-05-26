@@ -38,3 +38,13 @@ input, select {
   font-weight: 500;
   box-shadow: 0 0 8px rgba(192, 132, 252, 0.7);
 }
+
+.blue-neon-tag {
+  background-color: rgba(25, 28, 106, 0.82); /* purple-800/20 */
+  color: #7c85df; /* purple-300 */
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 0 8px rgba(192, 132, 252, 0.7);
+}

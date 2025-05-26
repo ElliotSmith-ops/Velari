@@ -7,20 +7,19 @@ import Image from 'next/image'
 type Insight = {
   id: string
   post_id: string | null
-  summary: string
-  pain_point: string
-  idea: string
+  signal: string
+  why_it_matters: string
+  action_angle: string
   urgency_score: number
   novelty_score: number
   tone: string
-  category: string
+  sector: string
   created_at: string
-  
 }
 
 export default function Home() {
   const [insights, setInsights] = useState<Insight[]>([])
-  const [category, setCategory] = useState('')
+  const [sector, setSector] = useState('')
   const [tone, setTone] = useState('')
   const [search, setSearch] = useState('')
   const [minUrgency, setMinUrgency] = useState(1)
@@ -28,9 +27,9 @@ export default function Home() {
 
   useEffect(() => {
     const fetchInsights = async () => {
-      let query = supabase.from('insights').select('id, post_id, summary, pain_point, idea, urgency_score, novelty_score, tone, category, created_at')
+      let query = supabase.from('insights').select('id, post_id, signal, why_it_matters, action_angle, urgency_score, novelty_score, tone, sector, created_at')
 
-      if (category) query = query.eq('category', category)
+      if (sector) query = query.eq('sector', sector)
       if (tone) query = query.eq('tone', tone)
       const { data, error } = await query.limit(50)
 
@@ -41,9 +40,9 @@ export default function Home() {
         const filtered = (data as Insight[]).filter(i =>
           (i.urgency_score >= minUrgency && i.novelty_score >= minNovelty) &&
           (
-            i.summary.toLowerCase().includes(search.toLowerCase()) ||
-            i.idea.toLowerCase().includes(search.toLowerCase()) ||
-            i.pain_point.toLowerCase().includes(search.toLowerCase())
+            i.signal.toLowerCase().includes(search.toLowerCase()) ||
+            i.why_it_matters.toLowerCase().includes(search.toLowerCase()) ||
+            i.action_angle.toLowerCase().includes(search.toLowerCase())
           )
         )
         setInsights(filtered)
@@ -51,7 +50,7 @@ export default function Home() {
     }
 
     fetchInsights()
-  }, [category, tone, search, minUrgency, minNovelty])
+  }, [sector, tone, search, minUrgency, minNovelty])
 
   return (
     <>
@@ -62,7 +61,7 @@ export default function Home() {
           <div className="w-full max-w-[18rem] h-auto">
             <Image
               src="/occulta-logo.png"
-              alt="occulta Logo"
+              alt="Occulta Logo"
               width={400}
               height={200}
               className="w-full h-auto object-contain"
@@ -87,11 +86,11 @@ export default function Home() {
           />
 
           <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={sector}
+            onChange={(e) => setSector(e.target.value)}
             className="border px-3 py-2 rounded-lg text-sm flex-1 basis-0 min-w-0 bg-zinc-800 border-zinc-700 max-w-xs"
           >
-            <option value="">All Categories</option>
+            <option value="">All Sectors</option>
             <option value="ecommerce">Ecommerce</option>
             <option value="SaaS">SaaS</option>
             <option value="creator">Creator Tools</option>
@@ -157,32 +156,42 @@ export default function Home() {
               className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden"
             >
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-purple-200 mb-3 break-words">
-                {insight.summary}
+                {insight.signal}
               </h2>
 
-              <p className="text-sm text-zinc-400 break-words">
-                <strong>Pain:</strong> {insight.pain_point}
+              <p className="text-sm text-zinc-400 mt-3 break-words">
+                <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
               </p>
-              <p className="text-sm text-zinc-400 break-words">
-                <strong>Idea:</strong> {insight.idea}
+              <p className="text-sm text-zinc-400 mt-3 break-words">
+                <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
               </p>
 
               <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4 min-w-0">
-                <span className="neon-tag">{insight.category}</span>
+                <span className="neon-tag">{insight.sector}</span>
                 <span className="neon-tag">🎭 Tone: {insight.tone}</span>
                 <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
                 <span className="neon-tag">💡 Novelty: {insight.novelty_score}</span>
                 <span className="neon-tag">{new Date(insight.created_at).toLocaleDateString()}</span>
                 {insight.post_id && (
-    <a
-      href={insight.post_id}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="neon-tag cursor-pointer hover:underline"
-    >
-      🔗 Link
-    </a>
-  )}
+                  <a
+                    href={insight.post_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="neon-tag cursor-pointer hover:underline"
+                  >
+                    🔗 Link
+                  </a>
+                )}
+              <button
+                onClick={() => {
+                const copyText = `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nRead more at https://occulta.ai`;
+                navigator.clipboard.writeText(copyText)
+                .then(() => alert('✅ Insight copied!'))
+                .catch(() => alert('❌ Failed to copy.'));
+                }}
+                className="blue-neon-tag inline-block rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2 text-xs text-white hover:bg-zinc-700 transition">
+                  📋 Copy
+              </button>
               </div>
             </div>
           ))}

@@ -6,7 +6,7 @@ import Image from 'next/image'
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
 
 export const metadata = {
-  title: 'Occulta - AI trend finder',
+  title: 'Occulta - AI startup signals',
   description: 'Live radar of emerging startup opportunities before they go mainstream.',
   openGraph: {
     title: 'Occulta – AI trend finder',
