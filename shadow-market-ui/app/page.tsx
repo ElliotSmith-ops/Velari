@@ -61,8 +61,8 @@ export default function Home() {
         <div className="flex justify-start mb-4 border-t border-zinc-700 pt-4">
           <div className="w-full max-w-[18rem] h-auto">
             <Image
-              src="/velari-logo.png"
-              alt="Velari Logo"
+              src="/occulta-logo.png"
+              alt="occulta Logo"
               width={400}
               height={200}
               className="w-full h-auto object-contain"
