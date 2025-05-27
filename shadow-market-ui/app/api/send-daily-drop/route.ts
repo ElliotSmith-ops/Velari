@@ -18,8 +18,7 @@ export async function GET() {
   const { data: insights, error: insightError } = await supabase
     .from('insights')
     .select('id, signal, why_it_matters')
-    .order('urgency_score', { ascending: false })
-    .order('novelty_score', { ascending: false })
+    .order('interesting_score', { ascending: false })
     .limit(10)
 
   if (insightError || !insights) {
@@ -51,12 +50,12 @@ export async function GET() {
   `
 
 
-  
+
 
   for (const { email } of subscribers) {
     console.log('Sending to:', email)
     await resend.emails.send({
-      from: 'Occulta <onboarding@resend.dev>',
+      from: 'Occulta <dailydrop@occulta.ai>',
       to: email,
       subject: '🧠 Occulta Daily Trend Drop',
       html

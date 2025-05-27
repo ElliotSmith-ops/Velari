@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
   try {
     const data = await resend.emails.send({
-      from: 'Occulta <onboarding@resend.dev>',
+      from: 'Occulta <hello@occulta.ai>',
       to: email,
       subject: "You're in. Welcome to Occulta.",
       html: `
