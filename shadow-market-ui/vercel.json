@@ -1,8 +1,17 @@
 {
     "crons": [
       {
+        "path": "/api/refresh-insights",
+        "schedule": "0 13 * * *"
+      },
+      {
+        "path": "/api/refresh-insights",
+        "schedule": "0 1 * * *"
+      },
+      {
         "path": "/api/send-daily-drop",
         "schedule": "0 14 * * *"
       }
     ]
   }
+  
