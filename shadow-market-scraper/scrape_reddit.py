@@ -18,12 +18,27 @@ reddit = praw.Reddit(
 supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 
 # Subreddits to scrape
-subreddits = ["Entrepreneur", "SideProject", "fashion"]
+subreddits = [
+    # Startups & Indie Biz
+    "startups", "indiehackers", "EntrepreneurRideAlong", "SaaS",
+
+    # AI & Builders
+    "ArtificialInteligence", "ChatGPTPro", "AutoGPT", "LocalLLaMA", "LLM",
+
+    # UX / Creators / Platforms
+    "UXDesign", "contentcreators", "Notion", "youtube", "podcasting", "TikTokGrowth",
+
+    # Consumer trends / lifestyle
+    "Futurology", "Frugal", "povertyfinance", "femalefashionadvice", "malefashionadvice",
+
+    # Health / Mental performance
+    "Biohackers", "Nootropics", "mentalhealth", "ADHD", "Anxiety"
+]
 
 def fetch_posts():
     for sub in subreddits:
         subreddit = reddit.subreddit(sub)
-        for post in subreddit.hot(limit=20):  # Adjust 'hot', 'new', etc.
+        for post in subreddit.top(time_filter='day', limit=20):  # Adjust 'hot', 'new', etc.
             # Skip if it's a stickied post or a link post
             if post.stickied or post.is_self is False:
                 continue

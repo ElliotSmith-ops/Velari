@@ -19,6 +19,7 @@ type Insight = {
   tone: string
   sector: string
   created_at: string
+  interesting_score: number
 }
 
 export default function Home() {
@@ -44,11 +45,14 @@ export default function Home() {
 
   useEffect(() => {
     const fetchInsights = async () => {
-      let query = supabase.from('insights').select('id, post_id, signal, why_it_matters, action_angle, urgency_score, novelty_score, tone, sector, created_at')
-
+      let query = supabase
+      .from('insights')
+      .select('id, post_id, signal, why_it_matters, action_angle, urgency_score, novelty_score, tone, sector, created_at, interesting_score')
+      .order('interesting_score', { ascending: false })  // 🧠 Sort by most interesting first
+    
       if (sector) query = query.eq('sector', sector)
       if (tone) query = query.eq('tone', tone)
-      const { data, error } = await query.limit(50)
+      const { data, error } = await query.limit(200)
 
       if (error) {
         console.error('❌ Error fetching insights:', error)

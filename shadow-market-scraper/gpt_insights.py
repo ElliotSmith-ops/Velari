@@ -3,7 +3,13 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from openai import OpenAI
-from datetime import datetime
+from datetime import datetime, timedelta
+
+cutoff = (datetime.utcnow() - timedelta(days=3)).isoformat()
+
+supabase.table("raw_posts").delete().lt("created_at", cutoff).execute()
+supabase.table("insights").delete().lt("created_at", cutoff).execute()
+
 
 print("🔥 THIS FILE IS RUNNING")
 
@@ -38,11 +44,28 @@ Explain the strategic significance. Who loses? Who wins? Why now?
 
 **🛠 Action Angle**  
 What should a founder, operator, or strategist *do* about this?
+**📊 Sector**: (choose one of the following)
+- SaaS
+- Ecommerce
+- Creator Tools
+- Health
+- AI
+- Education
+- Finance
+- Consumer
+- Other
 
-**📊 Sector**: [e.g., B2B SaaS, Healthcare, EdTech, Creator Economy]  
-**📌 Tone**: [e.g., Curious, Angry, Hopeful, Sarcastic]  
+**📌 Tone**: (choose one of the following)
+- Curious
+- Frustrated
+- Excited
+- Reflective
+- Skeptical
+- Hopeful
+- Sarcastic 
 **🔥 Urgency**: 1–10  
 **💡 Novelty**: 1–10  
+** Interesting**: An integer representing from a scale of 1-100 how interesting an entrepreneur may find the insight.
 **🕒 Date**: [autofill with today’s date]
 
 Extract the following as a JSON object with exactly these keys:
@@ -53,12 +76,15 @@ Extract the following as a JSON object with exactly these keys:
 - tone
 - urgency_score (1-10 integer)
 - novelty_score (1-10 integer)
+- interesting_score (1-100 integer)
 - date
 
 Rules:
 - Skip weak or redundant posts where novelty < 3 or urgency < 5 and return null.
 - Be opinionated. Take a stance.
 - Avoid fluff. Say what matters.
+- Only respond using the exact words above for 'sector' and 'tone'. If no good fit, choose 'Other'.
+- Only give high urgency and novelty scores to insights with actionable potential, not just urgent musings.
 """
     try:
         chat_response = client.chat.completions.create(
