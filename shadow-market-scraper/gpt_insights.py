@@ -115,7 +115,7 @@ Rules:
 
 def run_insight_pipeline():
     print("🔄 Running insight pipeline...")
-    posts = supabase.table("raw_posts").select("*").limit(20).execute().data
+    posts = supabase.table("raw_posts").select("*").limit(100).execute().data
     print(f"📥 Fetched {len(posts)} posts from Supabase")
     for post in posts:
         print(f"🔍 Processing post: {post['title']}")
