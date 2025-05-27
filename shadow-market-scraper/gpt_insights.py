@@ -5,10 +5,6 @@ from supabase import create_client, Client
 from openai import OpenAI
 from datetime import datetime, timedelta
 
-cutoff = (datetime.utcnow() - timedelta(days=3)).isoformat()
-
-supabase.table("raw_posts").delete().lt("created_at", cutoff).execute()
-supabase.table("insights").delete().lt("created_at", cutoff).execute()
 
 
 print("🔥 THIS FILE IS RUNNING")
@@ -23,6 +19,11 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # Initialize clients
 supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+cutoff = (datetime.utcnow() - timedelta(days=3)).isoformat()
+
+supabase.table("raw_posts").delete().lt("created_at", cutoff).execute()
+supabase.table("insights").delete().lt("created_at", cutoff).execute()
 
 def process_post(post):
     prompt = f"""
