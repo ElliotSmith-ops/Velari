@@ -141,6 +141,7 @@ def run_insight_pipeline():
                     "sector": insight_data["sector"], 
                     "urgency_score": int(insight_data["urgency_score"]),
                     "novelty_score": int(insight_data["novelty_score"]),
+                    "interesting_score": int(insight_data["interesting_score"]),
                     "tone": insight_data["tone"],
                     "created_at": datetime.utcnow().isoformat()
                 }).execute()
