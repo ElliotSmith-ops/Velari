@@ -50,6 +50,7 @@ export async function GET() {
     </div>
   `
 
+
   
 
   for (const { email } of subscribers) {
