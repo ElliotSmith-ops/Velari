@@ -18,7 +18,7 @@ reddit = praw.Reddit(
 supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 
 # Subreddits to scrape
-subreddits = ["Entrepreneur", "SideProject", "AItools"]
+subreddits = ["Entrepreneur", "SideProject", "fashion"]
 
 def fetch_posts():
     for sub in subreddits:
