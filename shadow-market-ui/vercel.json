@@ -2,8 +2,7 @@
     "crons": [
       {
         "path": "/api/send-daily-drop",
-        "schedule": "* * * * *", 
-        "timezone": "America/Los_Angeles"
+        "schedule": "* * * * *"
       }
     ]
   }
