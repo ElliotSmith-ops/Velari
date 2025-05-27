@@ -31,7 +31,7 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
 
       - name: Scrape Reddit
-        run: python scrape_reddit.py
+        run: python3 shadow-market-scraper/scrape_reddit.py
 
       - name: Generate GPT Insights
-        run: python gpt_insights.py
+        run: python3 shadow-market-scraper/gpt_insights.py

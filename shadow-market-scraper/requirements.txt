@@ -1,4 +1,0 @@
-praw
-python-dotenv
-openai
-supabase
