@@ -24,14 +24,41 @@ Reddit Post from r/{post['subreddit']}:
 Title: {post['title']}
 Content: {post['content']}
 
+You are a trend intelligence analyst for an elite signal-detection AI called Occulta.
+
+Your task is to extract powerful, actionable insights from Reddit posts. Your output should be bold, concise, and optimized for scanning.
+
+Use this structure:
+
+**🔍 Signal**  
+A 1–2 sentence hook summarizing the key behavior, shift, or overlooked insight.
+
+**🧨 Why It Matters**  
+Explain the strategic significance. Who loses? Who wins? Why now?
+
+**🛠 Action Angle**  
+What should a founder, operator, or strategist *do* about this?
+
+**📊 Sector**: [e.g., B2B SaaS, Healthcare, EdTech, Creator Economy]  
+**📌 Tone**: [e.g., Curious, Angry, Hopeful, Sarcastic]  
+**🔥 Urgency**: 1–10  
+**💡 Novelty**: 1–10  
+**🕒 Date**: [autofill with today’s date]
+
 Extract the following as a JSON object with exactly these keys:
-- summary
-- pain_point
-- idea
+- signal
+- why_it_matters
+- action_angle
+- sector
+- tone
 - urgency_score (1-10 integer)
 - novelty_score (1-10 integer)
-- tone
-- category
+- date
+
+Rules:
+- Skip weak or redundant posts where novelty < 3 or urgency < 5 and return null.
+- Be opinionated. Take a stance.
+- Avoid fluff. Say what matters.
 """
     try:
         chat_response = client.chat.completions.create(
@@ -61,7 +88,7 @@ Extract the following as a JSON object with exactly these keys:
 
 def run_insight_pipeline():
     print("🔄 Running insight pipeline...")
-    posts = supabase.table("raw_posts").select("*").limit(10).execute().data
+    posts = supabase.table("raw_posts").select("*").limit(20).execute().data
     print(f"📥 Fetched {len(posts)} posts from Supabase")
     for post in posts:
         print(f"🔍 Processing post: {post['title']}")
@@ -81,13 +108,13 @@ def run_insight_pipeline():
             try:
                 supabase.table("insights").insert({
                     "post_id": post["url"],
-                    "summary": insight_data["summary"],
-                    "pain_point": insight_data["pain_point"],
-                    "idea": insight_data["idea"],
+                    "signal": insight_data["signal"],
+                    "why_it_matters": insight_data["why_it_matters"],
+                    "action_angle": insight_data["action_angle"],
+                    "sector": insight_data["sector"], 
                     "urgency_score": int(insight_data["urgency_score"]),
                     "novelty_score": int(insight_data["novelty_score"]),
                     "tone": insight_data["tone"],
-                    "category": insight_data["category"],
                     "created_at": datetime.utcnow().isoformat()
                 }).execute()
                 print("✅ Inserted insight for:", post["title"])
