@@ -49,6 +49,7 @@ export async function GET() {
       </div>
     </div>
   `
+  
 
   for (const { email } of subscribers) {
     console.log('Sending to:', email)
