@@ -5,7 +5,12 @@ from dotenv import load_dotenv
 from datetime import datetime
 import praw
 from supabase import create_client, Client
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shadow-market-scraper')))
+
 from gpt_insights import run_insight_pipeline
+
 
 
 # Load environment variables
