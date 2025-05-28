@@ -103,7 +103,6 @@ Rules:
         return None
 
 def run_insight_pipeline(user_id=None):
-    def run_insight_pipeline(user_id=None):
     print("🧠🧠🧠 GPT INSIGHTS RUNNING 🧠🧠🧠", flush=True)
     raise Exception("INTENTIONALLY CRASHING TO PROVE FUNCTION RAN")
 
