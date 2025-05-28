@@ -107,14 +107,18 @@ def run_insight_pipeline(user_id=None):
     query = supabase.table("raw_posts").select("*").limit(100)
     query = query.eq("custom_user_id", user_id) if user_id else query.is_("custom_user_id", None)
     posts = query.execute().data
+    print(f"📥 {len(posts)} posts fetched for user '{user_id}'")
+
 
     print(f"📥 {len(posts)} posts fetched")
     for post in posts:
         print(f"🔍 {post['title']}")
-        if supabase.table("insights").select("id").eq("post_id", post["id"]).execute().data:
+        if supabase.table("insights").select("id").eq("post_id", post["url"]).execute().data:
             continue
 
         insight_data = process_post(post)
+        print("🧠 Insight GPT response:", insight_data)
+
         if not insight_data:
             continue
 
@@ -132,7 +136,7 @@ def run_insight_pipeline(user_id=None):
                 "created_at": datetime.utcnow().isoformat(),
                 "custom_user_id": user_id if user_id else None
             }).execute()
-            print("✅ Inserted insight")
+            print("✅ Inserted insight:", post["url"])
         except Exception as e:
             print("❌ DB insert error:", e)
 
