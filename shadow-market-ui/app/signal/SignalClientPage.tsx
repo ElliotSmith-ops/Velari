@@ -104,7 +104,7 @@ export default function SignalClientPage() {
               href={insight.post_id}
               target="_blank"
               rel="noopener noreferrer"
-              className="neon-tag hover:underline"
+              className="blue-neon-tag hover:underline"
             >
               🔗 Reddit
             </a>
