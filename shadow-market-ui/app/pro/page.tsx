@@ -34,7 +34,7 @@ export default function ProPage() {
         const trigger = await fetch('/api/scrape-subreddits', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, subreddits })
+          body: JSON.stringify({ userId, query, subreddits })
         })
 
         if (!trigger.ok) {

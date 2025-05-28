@@ -2,28 +2,37 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, query } = await req.json()
+    const { userId, subreddits, query } = await req.json()
+    console.log('📥 Request body:', { userId, subreddits })
 
-    if (!userId || !query) {
-      return NextResponse.json({ error: 'Missing userId or query' }, { status: 400 })
+    if (!userId || !Array.isArray(subreddits)) {
+      console.error('❌ Invalid input')
+      return NextResponse.json({ error: 'Missing or invalid userId or subreddits' }, { status: 400 })
     }
 
-    const scraperRes = await fetch(process.env.SCRAPER_URL!, {
+    const scraperUrl = process.env.SCRAPER_URL
+    if (!scraperUrl) {
+      console.error('❌ SCRAPER_URL is undefined')
+      return NextResponse.json({ error: 'SCRAPER_URL is not configured' }, { status: 500 })
+    }
+
+    const response = await fetch(scraperUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, query })
+      body: JSON.stringify({ user_id: userId, subreddits, query })
     })
 
-    const data = await scraperRes.json()
+    const data = await response.json()
+    console.log('✅ Scraper response:', data)
 
-    if (!scraperRes.ok) {
-      console.error('❌ Scraper error:', data)
-      return NextResponse.json({ error: 'Scraper failed' }, { status: 500 })
+    if (!response.ok) {
+      console.error('❌ Scraper returned non-OK status')
+      return NextResponse.json({ error: 'Scraper failed', details: data }, { status: 500 })
     }
 
     return NextResponse.json({ success: true, insights: data })
-  } catch (err) {
-    console.error('❌ Internal error:', err)
+  } catch (err: any) {
+    console.error('🔥 Unexpected error:', err.stack || err.message || err)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
