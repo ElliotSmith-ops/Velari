@@ -34,7 +34,12 @@ export async function POST(req: NextRequest) {
         temperature: 0.3,
       })
   
-      const content = chat.choices[0].message.content.trim()
+      const content = chat.choices?.[0]?.message?.content?.trim()
+
+      if (!content) {
+      return NextResponse.json({ error: 'No content returned from OpenAI' }, { status: 500 })
+      }
+
       const subreddits = JSON.parse(content)
   
       return NextResponse.json({ subreddits })
