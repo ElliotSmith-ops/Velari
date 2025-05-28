@@ -103,7 +103,10 @@ Rules:
         return None
 
 def run_insight_pipeline(user_id=None):
-    print("🔄 Running insight pipeline...")
+    def run_insight_pipeline(user_id=None):
+    print("🧠🧠🧠 GPT INSIGHTS RUNNING 🧠🧠🧠", flush=True)
+    raise Exception("INTENTIONALLY CRASHING TO PROVE FUNCTION RAN")
+
     query = supabase.table("raw_posts").select("*").limit(100)
     query = query.eq("custom_user_id", user_id) if user_id else query.is_("custom_user_id", None)
     posts = query.execute().data
