@@ -31,7 +31,7 @@ export default function ProPage() {
         setMessage(`🔍 Searching subreddits: ${subreddits.join(', ')}`)
 
         // Call your Python scraper here (step 2)
-        const trigger = await fetch('/api/custom-trends', {
+        const trigger = await fetch('/api/scrape-subreddits', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId, subreddits })
