@@ -136,6 +136,7 @@ def run_insight_pipeline(user_id=None):
                 "novelty_score": int(insight_data["novelty_score"]),
                 "interesting_score": int(insight_data["interesting_score"]),
                 "created_at": datetime.utcnow().isoformat(),
+                "custom_query": post.get("custom_query", None),
                 "custom_user_id": user_id if user_id else None
             }).execute()
             print("✅ Inserted insight:", post["url"])
