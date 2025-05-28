@@ -28,7 +28,7 @@ export default function ProPage() {
         setMessage(data.error || 'Something went wrong')
       } else {
         const { subreddits } = data
-        setMessage(`🔍 Searching subreddits: ${subreddits.join(', ')}`)
+        setMessage(`🔍 Scraping the internet and processing insights. This takes a minute or two so be patient :) : ${subreddits.join(', ')}`)
 
         // Call your Python scraper here (step 2)
         const trigger = await fetch('/api/scrape-subreddits', {
