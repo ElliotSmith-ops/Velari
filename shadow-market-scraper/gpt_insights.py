@@ -137,6 +137,7 @@ def run_insight_pipeline(user_id=None):
             print("❌ DB insert error:", e)
 
 if __name__ == "__main__":
+    import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--user_id", help="Optional custom user ID")
     args = parser.parse_args()

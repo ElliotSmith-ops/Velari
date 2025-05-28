@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 import praw
 from supabase import create_client, Client
+from gpt_insights import run_insight_pipeline
+
 
 # Load environment variables
 load_dotenv()
@@ -53,6 +55,9 @@ async def scrape(request: ScrapeRequest):
                 if not existing.data:
                     supabase.table("raw_posts").insert(post_data).execute()
                     inserted += 1
+        
+        print("🧠 Running GPT insight generation...")
+        run_insight_pipeline(user_id=request.user_id)
 
         return {"success": True, "inserted_posts": inserted, "subreddits": request.subreddits}
 
