@@ -102,23 +102,25 @@ export default function Home() {
           </div>
           <div className="flex flex-col flex-shrink-0 w-full sm:w-auto mt-2">
   <div className="flex flex-col items-center text-center">
-    <div className="relative w-40 h-24 mb-3">
-      <Image
-        src="/surfriderpro-logo.png"
-        alt="SurfRider Pro Logo"
-        fill
-        className="object-contain"
-        priority
-      />
-    </div>
-    <button
-      onClick={() => router.push('/pro')}
-      className="bg-black px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all"
-    >
-      <span className="bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: 'Klavika, sans-serif' }}>
-        Try for free / Sign in
-      </span>
-    </button>
+  <Link href="/pro">
+  <div className="relative w-40 h-24 mb-3 cursor-pointer hover:opacity-90 transition">
+    <Image
+      src="/surfriderpro-logo.png"
+      alt="SurfRider Pro Logo"
+      fill
+      className="object-contain"
+      priority
+    />
+  </div>
+</Link>
+<button
+  onClick={() => router.push('/pro')}
+  className="cursor-pointer bg-black px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all"
+>
+  <span className="bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: 'Klavika, sans-serif' }}>
+    Try for free / Sign in
+  </span>
+</button>
   </div>
 </div>
 

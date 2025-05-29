@@ -10,7 +10,7 @@ export default function SignInSignUp() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [mode, setMode] = useState<'signIn' | 'signUp'>('signUp')
+  const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -32,7 +32,14 @@ export default function SignInSignUp() {
         if (error) {
           setMessage('❌ Sign up failed: ' + error.message)
         } else {
-          setMessage('✅ Check your email to confirm your account.')
+          setMessage(`
+            ✅ Welcome to SurfRider Pro!
+            
+            We’ve sent a confirmation link to your email.
+            Just click it to activate your account.
+            
+            🚀 After confirming, you’ll be redirected to your dashboard and receive your free Pro credit.
+            `)
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -113,7 +120,15 @@ export default function SignInSignUp() {
             {loading ? 'Loading...' : mode === 'signUp' ? 'Sign Up' : 'Sign In'}
           </button>
 
-          {message && <p className="text-sm text-center mt-2 text-purple-300">{message}</p>}
+          {message && (
+  <div className="mt-4 bg-zinc-900 p-[2px] rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600">
+    <div className={"rounded-[10px] bg-zinc-900 p-5 text-white space-y-3 text-sm leading-relaxed ${dmMono.className}"}>
+      {message.split('\n').map((line, i) => (
+        <p key={i}>{line.trim()}</p>
+      ))}
+    </div>
+  </div>
+)}
         </form>
 
         <div className="text-center text-sm text-gray-400">
