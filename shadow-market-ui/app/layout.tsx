@@ -3,8 +3,6 @@ import { DM_Mono } from 'next/font/google'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
 
-
-
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
 
 export const metadata = {
@@ -17,7 +15,7 @@ export const metadata = {
     siteName: 'SurfRider',
     images: [
       {
-        url: 'https://surfrider.io/surfrider-icon.png', // Make sure this image exists in /public
+        url: 'https://surfrider.io/surfrider-icon.png',
         width: 1200,
         height: 630,
         alt: 'Surfrider logo glowing on black background',
@@ -34,12 +32,16 @@ export const metadata = {
   },
 }
 
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark overflow-x-hidden">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Optional: Support for PNG or SVG */}
+        {/* <link rel="icon" type="image/png" href="/favicon.png" /> */}
+      </head>
       <body className={`${dmMono.className} overflow-x-hidden`}>
-      <Toaster position="top-center" />
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>
