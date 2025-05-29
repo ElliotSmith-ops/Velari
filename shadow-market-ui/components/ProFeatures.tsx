@@ -10,8 +10,9 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 
 
-toast.success('Showing results for: "AI + ADHD tools"')
-
+type ProFeaturesProps = {
+  userId: string
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
