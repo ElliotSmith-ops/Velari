@@ -19,8 +19,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export default function ProFeatures() {
-  const [userId, setUserId] = useState<string | null>(null)
+export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [username, setUsername] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
@@ -37,7 +36,6 @@ export default function ProFeatures() {
     const storedUser = localStorage.getItem('fake_user')
     if (storedUser) {
       const parsed = JSON.parse(storedUser)
-      setUserId(parsed.id)
       setUsername(parsed.username)
       setCredits(parsed.credits)
     }
