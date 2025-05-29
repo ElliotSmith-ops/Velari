@@ -28,7 +28,7 @@ Reddit Post from r/{post['subreddit']}:
 Title: {post['title']}
 Content: {post['content']}
 
-You are a trend intelligence analyst for an elite signal-detection AI called Occulta.
+You are a trend intelligence analyst for an elite signal-detection AI called Surfrider.
 
 Your task is to extract powerful, actionable insights from Reddit posts. Your output should be bold, concise, and optimized for scanning.
 

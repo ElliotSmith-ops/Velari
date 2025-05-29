@@ -7,6 +7,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
 import SubscribeForm from '@/components/SubscribeForm'
+import { Button } from "@/components/ui/button"
+
+
 
 type Insight = {
   id: string
@@ -79,30 +82,68 @@ export default function Home() {
     <>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800" />
       <main className="min-h-screen max-w-6xl mx-auto w-full px-4 sm:px-6 text-white">
-        <div className="flex justify-start mb-4 border-t border-zinc-700 pt-4">
-          <div className="w-full max-w-[18rem] h-auto">
-            <Image src="/occulta-logo.png" alt="Occulta Logo" width={400} height={200} className="w-full h-auto object-contain" priority />
-          </div>
-                {/* NAVIGATION */}
-<div className="flex justify-end pt-6 pb-2">
-  <Link
-    href="/pro"
-    className="inline-block text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-500 text-white px-5 py-2 rounded-xl shadow-md hover:shadow-lg hover:brightness-110 transition"
-  >
-    🚀 Try Pro
-  </Link>
+      <div className="flex flex-wrap items-start justify-between gap-y-4 mt-4 mb-6 pt-3">
+  {/* Logo */}
+  <div className="w-full sm:w-auto max-w-[24rem] sm:max-w-[28rem]">
+  <Image
+    src="/surfrider-logo.png"
+    alt="SurfRider Logo"
+    width={600}
+    height={300}
+    className="w-full h-auto object-contain"
+    priority
+  />
 </div>
-        </div>
-        
+
+  {/* CTA Block */}
+  <div className="w-full sm:w-auto text-left sm:text-center">
+    <h2 className="text-xl sm:text-xl md:text-2xl font-bold text-purple-300 leading-tight mb-2">
+      Want specific insights?<br />
+      <span className="text-white">Unlock custom trends.</span>
+    </h2>
+
+    <div className="flex sm:justify-center justify-start mt-2">
+      <Button
+        className="bg-black text-[#3B82F6] font-bold px-5 py-2 rounded-xl border border-[#3B82F6] hover:bg-zinc-900 transition-all"
+        onClick={() => router.push("/pro")}
+      >
+        SurfRider Pro
+      </Button>
+    </div>
+
+    <p className="text-xs text-gray-500 mt-1">
+      Type anything. We’ll find the signal.
+    </p>
+    <p className="text-xs text-gray-500">
+  From finance to fan theories.
+</p>
+  </div>
+</div>
 
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-300 leading-tight mb-4">
           Trends rise fast.<br />
-          <span className="text-white">Occulta moves faster.</span>
+          <span className="text-white">Surfrider moves faster.</span>
         </h1>
         <p className="text-zinc-400 text-lg md:text-l max-w-xl mb-6">
-          Arming founders, investors, and builders with real-time, AI-curated opportunities from the internet’s raw frontier.
-        </p>
+  Arming founders, investors, and builders with real-time, AI-curated <span className="relative group cursor-help text-white underline decoration-dotted">signals
+    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 text-sm text-gray-300 bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
+      A signal is an early trend, rising pain point, or niche opportunity surfacing on the web before the mainstream-and your competitor-catches on.
+    </span>
+  </span> from the internet’s raw frontier.
+</p>
 
+        {/* EMAIL CAPTURE */}
+        <section className="py-10 border-t border-zinc-700">
+          <div className="mt-1 max-w-xl text-left">
+            <h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer">
+              <Link href="/subscribe">📬 Stay in the loop</Link>
+            </h2>
+            <p className="text-sm text-gray-400 mb-4">Subscribe for top insights delivered daily.</p>
+            <SubscribeForm />
+            {status === 'success' && <p className="text-green-400 mt-2">✅ Subscribed!</p>}
+            {status === 'error' && <p className="text-red-400 mt-2">❌ Something went wrong.</p>}
+          </div>
+        </section>
 
         {/* FILTERS */}
         <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -136,18 +177,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* EMAIL CAPTURE */}
-        <section className="py-10 border-t border-zinc-700">
-          <div className="mt-1 max-w-xl text-left">
-            <h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer">
-              <Link href="/subscribe">📬 Stay in the loop</Link>
-            </h2>
-            <p className="text-sm text-gray-400 mb-4">Subscribe for top insights delivered daily.</p>
-            <SubscribeForm />
-            {status === 'success' && <p className="text-green-400 mt-2">✅ Subscribed!</p>}
-            {status === 'error' && <p className="text-red-400 mt-2">❌ Something went wrong.</p>}
-          </div>
-        </section>
 
         {/* INSIGHTS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

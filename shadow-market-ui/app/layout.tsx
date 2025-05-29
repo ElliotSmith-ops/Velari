@@ -1,6 +1,8 @@
 import './globals.css'
 import { DM_Mono } from 'next/font/google'
 import Image from 'next/image'
+import { Toaster } from 'react-hot-toast'
+
 
 
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
@@ -37,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark overflow-x-hidden">
       <body className={`${dmMono.className} overflow-x-hidden`}>
+      <Toaster position="top-center" />
         {children}
       </body>
     </html>

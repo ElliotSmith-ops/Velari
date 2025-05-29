@@ -66,8 +66,8 @@ export default function SignalClientPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-3 sm:gap-0">
         <Link href="/" className="flex items-center space-x-3">
           <Image
-            src="/occulta-logo.png"
-            alt="Occulta logo"
+            src="/surfrider-logo.png"
+            alt="surfrider logo"
             width={160}
             height={80}
             className="w-auto h-8 sm:h-10"
@@ -106,7 +106,7 @@ export default function SignalClientPage() {
               rel="noopener noreferrer"
               className="blue-neon-tag hover:underline"
             >
-              🔗 Reddit
+              🔗 Insight Origin
             </a>
           )}
         </div>

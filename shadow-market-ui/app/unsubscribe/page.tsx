@@ -30,8 +30,8 @@ export default function UnsubscribePage() {
         <div className="flex items-center justify-between mb-6">
           <Link href="/">
             <Image
-              src="/occulta-logo.png"
-              alt="Occulta logo"
+              src="/surfrider-logo.png"
+              alt="surfrider logo"
               width={160}
               height={80}
               className="w-auto h-8 sm:h-10"

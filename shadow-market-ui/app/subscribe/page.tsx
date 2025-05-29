@@ -14,8 +14,8 @@ export default function SubscribePage() {
         <div className="flex items-center justify-between mb-6">
           <Link href="/">
             <Image
-              src="/occulta-logo.png"
-              alt="Occulta logo"
+              src="/surfrider-logo.png"
+              alt="surfrider logo"
               width={160}
               height={80}
               className="w-auto h-8 sm:h-10"
@@ -28,10 +28,10 @@ export default function SubscribePage() {
 
         {/* Content */}
         <h1 className="text-2xl sm:text-3xl font-bold text-purple-300 mb-4">
-          Subscribe to Occulta
+          Subscribe to SurfRider
         </h1>
         <p className="text-gray-300 mb-5 text-base leading-relaxed">
-          Occulta scans Reddit to detect rising startup trends before they go mainstream. Get the best 3–5 insights delivered to your inbox every morning.
+          SurfRider scans Reddit to detect rising startup trends before they go mainstream. Get the best 3–5 insights delivered to your inbox every morning.
         </p>
 
         <ul className="mb-6 text-gray-400 list-disc list-inside space-y-2">
