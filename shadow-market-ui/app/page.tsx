@@ -7,9 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
 import SubscribeForm from '@/components/SubscribeForm'
-import { Button } from "@/components/ui/button"
-
-
+import { Button } from '@/components/ui/button'
 
 type Insight = {
   id: string
@@ -82,74 +80,77 @@ export default function Home() {
     <>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800" />
       <main className="min-h-screen max-w-6xl mx-auto w-full px-4 sm:px-6 text-white">
-      <div className="flex flex-wrap items-start justify-between gap-y-4 mt-4 mb-6 pt-3">
-  {/* Logo */}
-  <div className="w-full sm:w-auto max-w-[24rem] sm:max-w-[28rem]">
-  <Image
-    src="/surfrider-logo.png"
-    alt="SurfRider Logo"
-    width={600}
-    height={300}
-    className="w-full h-auto object-contain"
-    priority
-  />
-</div>
 
-  {/* CTA Block */}
-  <div className="w-full sm:w-auto text-left sm:text-center">
-    <h2 className="text-xl sm:text-xl md:text-2xl font-bold text-purple-300 leading-tight mb-2">
-      Want specific insights?<br />
-      <span className="text-white">Unlock custom trends.</span>
-    </h2>
-
-    <div className="flex sm:justify-center justify-start mt-2">
-      <Button
-        className="bg-black text-[#3B82F6] font-bold px-5 py-2 rounded-xl border border-[#3B82F6] hover:bg-zinc-900 transition-all"
-        onClick={() => router.push("/pro")}
-      >
-        SurfRider Pro
-      </Button>
+        {/* Hero Section */}
+        <section className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-10 pt-6 pb-12">
+          <div className="flex-1 min-w-[300px]">
+            <Image
+              src="/surfrider-logo.png"
+              alt="SurfRider"
+              width={300}
+              height={100}
+              className="h-20 w-auto mx-auto sm:mx-0"
+              priority
+            />
+            <h1 className="mt-4 text-3xl sm:text-4xl font-bold leading-snug">
+              <span className="text-purple-400">Trends rise fast.</span><br />
+              <span className="text-white">SurfRider moves faster.</span>
+            </h1>
+            <p className="mt-3 text-gray-400 text-base sm:text-lg max-w-xl">
+              Arming founders, investors, and builders with real-time, AI-curated <span className="underline decoration-dotted text-white">signals</span> from the internet’s raw frontier.
+            </p>
+          </div>
+          <div className="flex flex-col flex-shrink-0 w-full sm:w-auto mt-2">
+  <div className="flex flex-col items-center text-center">
+    <div className="relative w-40 h-24 mb-3">
+      <Image
+        src="/surfriderpro-logo.png"
+        alt="SurfRider Pro Logo"
+        fill
+        className="object-contain"
+        priority
+      />
     </div>
-
-    <p className="text-xs text-gray-500 mt-1">
-      Type anything. We’ll find the signal.
-    </p>
-    <p className="text-xs text-gray-500">
-  From finance to fan theories.
-</p>
+    <button
+      onClick={() => router.push('/pro')}
+      className="bg-black px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all"
+    >
+      <span className="bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: 'Klavika, sans-serif' }}>
+        Try for free / Sign in
+      </span>
+    </button>
   </div>
 </div>
 
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-300 leading-tight mb-4">
-          Trends rise fast.<br />
-          <span className="text-white">Surfrider moves faster.</span>
-        </h1>
-        <p className="text-zinc-400 text-lg md:text-l max-w-xl mb-6">
-  Arming founders, investors, and builders with real-time, AI-curated <span className="relative group cursor-help text-white underline decoration-dotted">signals
-    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 text-sm text-gray-300 bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
-      A signal is an early trend, rising pain point, or niche opportunity surfacing on the web before the mainstream-and your competitor-catches on.
-    </span>
-  </span> from the internet’s raw frontier.
-</p>
+        </section>
 
-        {/* EMAIL CAPTURE */}
+        {/* Subscribe */}
         <section className="py-10 border-t border-zinc-700">
-          <div className="mt-1 max-w-xl text-left">
+          <div className="mt-1 max-w-xl text-center lg:text-left mx-auto">
             <h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer">
               <Link href="/subscribe">📬 Stay in the loop</Link>
             </h2>
             <p className="text-sm text-gray-400 mb-4">Subscribe for top insights delivered daily.</p>
-            <SubscribeForm />
+            <form onSubmit={handleSubscribe} className="flex gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm w-full"
+              />
+              <Button type="submit" className="text-sm px-4 py-2">Subscribe</Button>
+            </form>
             {status === 'success' && <p className="text-green-400 mt-2">✅ Subscribed!</p>}
             {status === 'error' && <p className="text-red-400 mt-2">❌ Something went wrong.</p>}
           </div>
         </section>
 
-        {/* FILTERS */}
+        {/* Filters and Insights */}
         <div className="flex flex-wrap justify-center gap-4 mb-6">
-          <input type="text" placeholder="Search insights..." value={search} onChange={(e) => setSearch(e.target.value)} className="border px-3 py-2 rounded-lg text-sm flex-1 basis-0 min-w-0 bg-zinc-800 border-zinc-700 max-w-xs" />
-
-          <select value={sector} onChange={(e) => setSector(e.target.value)} className="border px-3 py-2 rounded-lg text-sm flex-1 basis-0 min-w-0 bg-zinc-800 border-zinc-700 max-w-xs">
+          <input type="text" placeholder="Search insights..." value={search} onChange={(e) => setSearch(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs" />
+          <select value={sector} onChange={(e) => setSector(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs">
             <option value="">All Sectors</option>
             <option value="ecommerce">Ecommerce</option>
             <option value="SaaS">SaaS</option>
@@ -157,47 +158,40 @@ export default function Home() {
             <option value="health">Health</option>
             <option value="other">Other</option>
           </select>
-
-          <select value={tone} onChange={(e) => setTone(e.target.value)} className="border px-3 py-2 rounded-lg text-sm flex-1 basis-0 min-w-0 bg-zinc-800 border-zinc-700 max-w-xs">
+          <select value={tone} onChange={(e) => setTone(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs">
             <option value="">All Tones</option>
             <option value="curious">Curious</option>
             <option value="frustrated">Frustrated</option>
             <option value="excited">Excited</option>
             <option value="reflective">Reflective</option>
           </select>
-
-          <div className="flex flex-col text-sm flex-1 basis-0 min-w-0 max-w-xs">
+          <div className="flex flex-col text-sm max-w-xs">
             <label htmlFor="urgency" className="mb-1 text-gray-400 font-medium">Min Urgency: {minUrgency}</label>
-            <input type="range" id="urgency" min={1} max={10} value={minUrgency} onChange={(e) => setMinUrgency(Number(e.target.value))} className="w-full max-w-full appearance-none" />
+            <input type="range" id="urgency" min={1} max={10} value={minUrgency} onChange={(e) => setMinUrgency(Number(e.target.value))} />
           </div>
-
-          <div className="flex flex-col text-sm flex-1 basis-0 min-w-0 max-w-xs">
+          <div className="flex flex-col text-sm max-w-xs">
             <label htmlFor="novelty" className="mb-1 text-gray-400 font-medium">Min Novelty: {minNovelty}</label>
-            <input type="range" id="novelty" min={1} max={10} value={minNovelty} onChange={(e) => setMinNovelty(Number(e.target.value))} className="w-full max-w-full appearance-none" />
+            <input type="range" id="novelty" min={1} max={10} value={minNovelty} onChange={(e) => setMinNovelty(Number(e.target.value))} />
           </div>
         </div>
 
-
-        {/* INSIGHTS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {insights.map((insight) => (
             <div
               key={insight.id}
               onClick={() => router.push(`/signal?id=${insight.id}`)}
-              className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer group"
+              className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md hover:shadow-lg transition cursor-pointer group"
             >
-              <h2 className="text-base sm:text-lg md:text-xl font-bold text-purple-200 mb-3 break-words">
+              <h2 className="text-xl font-bold text-purple-200 mb-3 break-words">
                 🔍 {insight.signal} <span aria-hidden>↗</span>
               </h2>
-
               <p className="text-sm text-zinc-400 mt-3 break-words">
                 <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
               </p>
               <p className="text-sm text-zinc-400 mt-3 break-words">
                 <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
               </p>
-
-              <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4 min-w-0 items-center">
+              <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4 items-center">
                 <span className="neon-tag">{insight.sector}</span>
                 <span className="neon-tag">🎭 Tone: {insight.tone}</span>
                 <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
