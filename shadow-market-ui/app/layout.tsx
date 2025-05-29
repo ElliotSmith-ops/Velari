@@ -8,19 +8,19 @@ import { Toaster } from 'react-hot-toast'
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
 
 export const metadata = {
-  title: 'Occulta - AI startup signals',
+  title: 'SurfRider - Startup Signals powered by AI',
   description: 'Live radar of emerging startup opportunities before they go mainstream.',
   openGraph: {
-    title: 'Occulta – AI trend finder',
+    title: 'SurfRider – Startup Signals powered by AI',
     description: 'Live radar of emerging startup opportunities before they go mainstream.',
-    url: 'https://occulta.ai',
-    siteName: 'Occulta',
+    url: 'https://surfrider.io',
+    siteName: 'SurfRider',
     images: [
       {
-        url: 'https://occulta.ai/og-logo.png', // Make sure this image exists in /public
+        url: 'https://surfrider.io/surfrider-icon.png', // Make sure this image exists in /public
         width: 1200,
         height: 630,
-        alt: 'Occulta logo glowing on black background',
+        alt: 'Surfrider logo glowing on black background',
       },
     ],
     locale: 'en_US',
@@ -28,9 +28,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Occulta – AI trend finder',
-    description: 'Discover rising startup trends in real-time.',
-    images: ['https://occulta.ai/og-logo.png'],
+    title: 'SurfRider – Startup Signals powered by AI',
+    description: 'Discover rising business opportunities in real-time.',
+    images: ['https://surfrider.io/surfrider-icon.png'],
   },
 }
 
