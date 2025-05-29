@@ -33,17 +33,29 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const router = useRouter()
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('fake_user')
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser)
-      setUsername(parsed.username)
-      setCredits(parsed.credits)
+    const fetchUserData = async () => {
+      if (!userId) return
+      const { data, error } = await supabase
+        .from('users')
+        .select('username, credits')
+        .eq('id', userId)
+        .single()
+  
+      if (error) {
+        console.error('Error fetching user data:', error)
+      } else {
+        setUsername(data.username)
+        setCredits(data.credits)
+      }
     }
-  }, [])
+  
+    fetchUserData()
+  }, [userId])
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut() // kill session
     localStorage.removeItem('fake_user')
-    router.push('/')
+    window.location.href = '/'
   }
 
   const handleBuyCredits = () => {

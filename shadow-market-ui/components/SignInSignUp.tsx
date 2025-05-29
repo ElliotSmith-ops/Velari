@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 export default function SignInSignUp() {
   const router = useRouter()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signUp')
   const [message, setMessage] = useState('')
@@ -21,34 +21,31 @@ export default function SignInSignUp() {
 
     try {
       if (mode === 'signUp') {
-        const { data, error } = await supabase
-          .from('users')
-          .insert([{ username, password, credits: 1 }])
-          .select()
-          .single()
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: 'https://surfrider.io/pro' // or 'http://localhost:3000/pro' in dev
+          }
+        })
 
         if (error) {
-          setMessage('Sign up failed: ' + error.message)
-          return
+          setMessage('❌ Sign up failed: ' + error.message)
+        } else {
+          setMessage('✅ Check your email to confirm your account.')
         }
-
-        localStorage.setItem('fake_user', JSON.stringify(data))
-        window.location.reload()
       } else {
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('username', username)
-          .eq('password', password)
-          .single()
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        })
 
         if (error) {
-          setMessage('Sign in failed: ' + error.message)
-          return
+          setMessage('❌ Sign in failed: ' + error.message)
+        } else {
+          localStorage.setItem('fake_user', JSON.stringify(data.user))
+          window.location.reload()
         }
-
-        localStorage.setItem('fake_user', JSON.stringify(data))
-        window.location.reload()
       }
     } catch (err) {
       console.error(err)
@@ -60,8 +57,6 @@ export default function SignInSignUp() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 relative">
-      
-      {/* Top-left icon */}
       <Link href="/" className="absolute top-4 left-4 w-12 sm:w-14 z-50">
         <Image
           src="/surfrider-icon.png"
@@ -74,7 +69,6 @@ export default function SignInSignUp() {
       </Link>
 
       <div className="w-full max-w-md space-y-8 pt-12 pb-10">
-        {/* Logo */}
         <div className="text-center">
           <Image
             src="/surfriderpro-logo.png"
@@ -89,19 +83,18 @@ export default function SignInSignUp() {
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
             {mode === 'signUp'
-              ? 'Join SurfRider Pro and get 1 free credit'
+              ? 'Join SurfRider Pro and check your inbox to confirm'
               : 'Sign in to access Pro insights'}
           </p>
         </div>
 
-        {/* Auth Form */}
         <form onSubmit={handleAuth} className="space-y-4 bg-zinc-900/80 p-6 rounded-xl border border-zinc-700 shadow-md">
           <input
-            type="text"
-            placeholder="Username"
+            type="email"
+            placeholder="Email"
             required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
           />
           <input
@@ -123,7 +116,6 @@ export default function SignInSignUp() {
           {message && <p className="text-sm text-center mt-2 text-purple-300">{message}</p>}
         </form>
 
-        {/* Toggle Mode */}
         <div className="text-center text-sm text-gray-400">
           {mode === 'signUp' ? (
             <>
@@ -142,7 +134,6 @@ export default function SignInSignUp() {
           )}
         </div>
 
-        {/* What is SurfRider Pro */}
         <div className="mt-10 text-center border-t border-zinc-700 pt-6">
           <h2 className="text-xl font-semibold text-white mb-2">What is SurfRider Pro?</h2>
           <p className="text-sm text-zinc-400 leading-relaxed">

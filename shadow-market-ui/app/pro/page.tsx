@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
 import SignInSignUp from '@/components/SignInSignUp'
 import ProFeatures from '@/components/ProFeatures'
 
@@ -9,20 +10,35 @@ export default function ProPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('fake_user')
-    if (storedUser) {
-      try {
-        const parsed = JSON.parse(storedUser)
-        setUserId(parsed.id) // your Supabase "users" table should have an "id" field
-      } catch (err) {
-        console.error('Failed to parse user:', err)
-        setUserId(null)
+    const init = async () => {
+      // First: check Supabase auth session (for email confirm redirects)
+      const {
+        data: { session },
+        error
+      } = await supabase.auth.getSession()
+
+      if (session?.user) {
+        const id = session.user.id
+        localStorage.setItem('fake_user', JSON.stringify({ id }))
+        setUserId(id)
+      } else {
+        // Fallback: check localStorage (manual login)
+        const storedUser = localStorage.getItem('fake_user')
+        if (storedUser) {
+          try {
+            const parsed = JSON.parse(storedUser)
+            setUserId(parsed.id)
+          } catch (err) {
+            console.error('Failed to parse local user:', err)
+            setUserId(null)
+          }
+        }
       }
-    } else {
-      setUserId(null)
+
+      setLoading(false)
     }
 
-    setLoading(false)
+    init()
   }, [])
 
   if (loading) return <p className="text-white text-center mt-10">Loading...</p>
