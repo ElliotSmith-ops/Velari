@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabase'
 import CopyButton from '@/components/CopyButton'
 import Link from 'next/link'
 import Image from 'next/image'
+import ShareButton from '@/components/ShareButton'
+
 
 export default function SignalClientPage() {
   const searchParams = useSearchParams()
@@ -112,6 +114,9 @@ export default function SignalClientPage() {
         </div>
 
         <CopyButton text={copyText} />
+
+        <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+        
       </div>
 
       {related && related.length > 0 && (

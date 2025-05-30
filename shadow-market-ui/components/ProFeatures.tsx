@@ -28,6 +28,8 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [selectedQuery, setSelectedQuery] = useState('')
   const [results, setResults] = useState<any[]>([])
   const [credits, setCredits] = useState<number | null>(null)
+  const [scrapingMessage, setScrapingMessage] = useState<string | null>(null)
+
 
 
   const router = useRouter()
@@ -132,18 +134,24 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
         setMessage(data.error || 'Something went wrong')
       } else {
         const { subreddits } = data
-        setMessage(`🔍 Scraping Reddit for: ${subreddits.join(', ')}`)
+        setScrapingMessage(`🔍 Scraping Reddit for: ${subreddits.join(', ')}`)
 
         const trigger = await fetch('/api/scrape-subreddits', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId, query, subreddits })
         })
-
+        
         if (!trigger.ok) {
-          setMessage('❌ Failed to trigger scraper.')
+          setScrapingMessage('❌ Failed to trigger scraper.')
         } else {
-          setMessage('✅ Subreddits scraped. GPT is analyzing now…')
+          setScrapingMessage('✅ Scraping complete! Fetching insights...')
+          
+          // Trigger re-fetch of results
+          setTimeout(() => {
+            setSelectedQuery(query)
+            setScrapingMessage(null)
+          }, 1000)
         }
       }
     } catch (err) {
@@ -249,12 +257,15 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
     </select>
   </div>
 )}
+{scrapingMessage && (
+  <p className="mt-6 text-sm text-purple-400">{scrapingMessage}</p>
+)}
 
-        {selectedQuery && (
-          <p className="text-sm text-purple-300 mt-4">
-            Showing results for: <span className="text-white font-medium">{selectedQuery}</span>
-          </p>
-        )}
+{selectedQuery && (
+  <p className="text-sm text-purple-300 mt-2">
+    Showing results for: <span className="text-white font-medium">{selectedQuery}</span>
+  </p>
+)}
 
 {results.length > 0 && (
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 items-start">

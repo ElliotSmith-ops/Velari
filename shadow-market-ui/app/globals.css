@@ -27,6 +27,8 @@ input, select {
   border: 1px solid #333;
 }
 
+
+
 /* Neon glow for tags */
 .neon-tag {
   background-color: rgba(147, 51, 234, 0.15); /* purple-800/20 */

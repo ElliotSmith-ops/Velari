@@ -9,6 +9,8 @@ import CopyButton from '@/components/CopyButton'
 import SubscribeForm from '@/components/SubscribeForm'
 import { Button } from '@/components/ui/button'
 import ShareButton from '@/components/ShareButton'
+import { useMemo } from 'react'
+
 
 
 type Insight = {
@@ -34,8 +36,20 @@ export default function Home() {
   const [minNovelty, setMinNovelty] = useState(1)
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
+  const [sortField, setSortField] = useState('interesting_score')
   const router = useRouter()
+  const sectors = ['ecommerce', 'SaaS', 'creator', 'health', 'other']
+const tones = ['curious', 'frustrated', 'excited', 'reflective']
+
+const sortOptions = [
+  { label: 'Default', value: 'interesting_score' },
+  { label: 'Urgency', value: 'urgency_score' },
+  { label: 'Novelty', value: 'novelty_score' },
+]
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,30 +67,36 @@ export default function Home() {
       let query = supabase
         .from('insights')
         .select('*')
-        .order('interesting_score', { ascending: false })
-
+        .order(sortField, { ascending: false })
+  
       if (sector) query = query.eq('sector', sector)
       if (tone) query = query.eq('tone', tone)
-      const { data, error } = await query.limit(200)
+      
+        console.log('🔍 Querying with:', { sector, tone, sortField })
 
-      if (error) {
+      const { data, error } = await query.limit(200)
+  
+      if (error || !data) {
         console.error('❌ Error fetching insights:', error)
         setInsights([])
-      } else {
-        const filtered = (data as Insight[]).filter(i =>
-          (i.urgency_score >= minUrgency && i.novelty_score >= minNovelty) &&
-          (
-            i.signal.toLowerCase().includes(search.toLowerCase()) ||
-            i.why_it_matters.toLowerCase().includes(search.toLowerCase()) ||
-            i.action_angle.toLowerCase().includes(search.toLowerCase())
-          )
-        )
-        setInsights(filtered)
+        return
       }
+  
+      const filtered = data.filter(i =>
+        i.urgency_score >= minUrgency &&
+        i.novelty_score >= minNovelty &&
+        (
+          i.signal.toLowerCase().includes(search.toLowerCase()) ||
+          i.why_it_matters.toLowerCase().includes(search.toLowerCase()) ||
+          i.action_angle.toLowerCase().includes(search.toLowerCase())
+        )
+      )
+  
+      setInsights(filtered)
     }
-
+  
     fetchInsights()
-  }, [sector, tone, search, minUrgency, minNovelty])
+  }, [sector, tone, search, minUrgency, minNovelty, sortField])
 
   return (
     <>
@@ -99,7 +119,14 @@ export default function Home() {
               <span className="text-white">SurfRider moves faster.</span>
             </h1>
             <p className="mt-3 text-gray-400 text-base sm:text-lg max-w-xl">
-              Arming founders, investors, and builders with real-time, AI-curated <span className="underline decoration-dotted text-white">signals</span> from the internet’s raw frontier.
+              Arming founders, investors, and builders with real-time, AI-curated <span
+  className="underline decoration-dotted text-white cursor-help relative group"
+>
+  signals
+  <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-zinc-900 text-gray-300 text-xs p-3 rounded-lg border border-zinc-700 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
+  Signals are whispers from the internet's edge — we turn them into launch ideas.
+  </span>
+</span> from the internet’s raw frontier.
             </p>
           </div>
           <div className="flex flex-col flex-shrink-0 w-full sm:w-auto mt-2">
@@ -151,33 +178,64 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Filters and Insights */}
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
-          <input type="text" placeholder="Search insights..." value={search} onChange={(e) => setSearch(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs" />
-          <select value={sector} onChange={(e) => setSector(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs">
-            <option value="">All Sectors</option>
-            <option value="ecommerce">Ecommerce</option>
-            <option value="SaaS">SaaS</option>
-            <option value="creator">Creator Tools</option>
-            <option value="health">Health</option>
-            <option value="other">Other</option>
-          </select>
-          <select value={tone} onChange={(e) => setTone(e.target.value)} className="border px-3 py-2 rounded-lg text-sm bg-zinc-800 border-zinc-700 max-w-xs">
-            <option value="">All Tones</option>
-            <option value="curious">Curious</option>
-            <option value="frustrated">Frustrated</option>
-            <option value="excited">Excited</option>
-            <option value="reflective">Reflective</option>
-          </select>
-          <div className="flex flex-col text-sm max-w-xs">
-            <label htmlFor="urgency" className="mb-1 text-gray-400 font-medium">Min Urgency: {minUrgency}</label>
-            <input type="range" id="urgency" min={1} max={10} value={minUrgency} onChange={(e) => setMinUrgency(Number(e.target.value))} />
-          </div>
-          <div className="flex flex-col text-sm max-w-xs">
-            <label htmlFor="novelty" className="mb-1 text-gray-400 font-medium">Min Novelty: {minNovelty}</label>
-            <input type="range" id="novelty" min={1} max={10} value={minNovelty} onChange={(e) => setMinNovelty(Number(e.target.value))} />
-          </div>
-        </div>
+
+
+  {/* Tone Filters */}
+<div className="flex flex-wrap gap-4 items-center justify-center mb-6 w-full">
+  {/* Search Input */}
+  <input
+    type="text"
+    placeholder="Search insights..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-64"
+  />
+
+  {/* Sector Dropdown */}
+  <select
+    value={sector}
+    onChange={(e) => setSector(e.target.value)}
+    className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-48"
+  >
+    <option value="">All Sectors</option>
+    <option value="Ecommerce">Ecommerce</option>
+    <option value="SaaS">SaaS</option>
+    <option value="Creator Tools">Creator Tools</option>
+    <option value="Health">Health</option>
+    <option value="AI">AI</option>
+    <option value="Education">Education</option>
+    <option value="Finance">Finance</option>
+    <option value="Consumer">Creator Tools</option>
+    <option value="Other">Other</option>
+  </select>
+
+  {/* Tone Dropdown */}
+  <select
+    value={tone}
+    onChange={(e) => setTone(e.target.value)}
+    className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-48"
+  >
+    <option value="">All Tones</option>
+    <option value="Curious">Curious</option>
+    <option value="Frustrated">Frustrated</option>
+    <option value="Excited">Excited</option>
+    <option value="Reflective">Reflective</option>
+    <option value="Skeptical">Skeptical</option>
+    <option value="Hopeful">Hopeful</option>
+    <option value="Sarcastic">Sarcastic</option>
+  </select>
+
+  {/* Sort Dropdown */}
+  <select
+    value={sortField}
+    onChange={(e) => setSortField(e.target.value)}
+    className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-40"
+  >
+    <option value="interesting_score">Sort: Default</option>
+    <option value="urgency_score">Sort: Urgency</option>
+    <option value="novelty_score">Sort: Novelty</option>
+  </select>
+</div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {insights.map((insight) => (
