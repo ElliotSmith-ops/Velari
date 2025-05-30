@@ -94,7 +94,7 @@ async def scrape(request: ScrapeRequest):
             continue
 
     if inserted == 0 and len(skipped) == len(request.subreddits):
-    raise HTTPException(status_code=400, detail="All subreddits were inaccessible or failed.")
+        raise HTTPException(status_code=400, detail="All subreddits were inaccessible or failed.")
 
     print("🧠 Running GPT insight generation...")
     run_insight_pipeline(user_id=request.user_id, query=request.query)  # <-- pass query
