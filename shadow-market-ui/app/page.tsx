@@ -8,6 +8,8 @@ import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
 import SubscribeForm from '@/components/SubscribeForm'
 import { Button } from '@/components/ui/button'
+import ShareButton from '@/components/ShareButton'
+
 
 type Insight = {
   id: string
@@ -214,6 +216,9 @@ export default function Home() {
                   <CopyButton
                     text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
                   />
+                </div>
+                <div className="flex justify-between items-start">
+                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
                 </div>
               </div>
             </div>
