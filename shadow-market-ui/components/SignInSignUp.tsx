@@ -26,7 +26,7 @@ export default function SignInSignUp() {
           email,
           password,
           options: {
-            emailRedirectTo: 'http://localhost:3000/pro', // or 'https://surfrider.io/pro' in prod
+            emailRedirectTo: 'https://surfrider.io/pro', // or 'https://surfrider.io/pro' in prod
           },
         })
 
@@ -68,7 +68,7 @@ Just click it to activate your account.
     setLoading(true)
     setMessage('')
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:3000/reset-password', // or 'https://surfrider.io/auth/callback'
+      redirectTo: 'http://surfrider.io/reset-password', // or 'https://surfrider.io/auth/callback'
     })
     if (error) {
       setMessage('❌ ' + error.message)
