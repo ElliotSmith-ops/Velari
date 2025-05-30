@@ -21,10 +21,18 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Missing query or userId' }, { status: 400 })
       }
   
-      const prompt = `Identify 5 of the most relevant subreddits to find discussions related to the following trend:
-  "${query}"
-  
-  Respond as a plain array of subreddit names like ["example1", "example2"]`
+      const prompt = `Identify 5 of the most relevant, active, and public subreddits where people discuss topics related to the following subject:
+
+"${query}"
+
+Focus on subreddits that:
+- Are currently active (recent posts in the past month)
+- Are public and not restricted or banned
+- Attract discussion from real users, not just news/link dumps
+- Are relevant even for complex or niche topics
+
+Return only the subreddit names as a plain lowercase array like:
+["example1", "example2", "example3", "example4", "example5"]`
   
       const chat = await openai.chat.completions.create({
         model: 'gpt-4o',

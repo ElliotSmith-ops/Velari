@@ -13,6 +13,7 @@ export default function SignInSignUp() {
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [forgotMode, setForgotMode] = useState(false)
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,21 +26,21 @@ export default function SignInSignUp() {
           email,
           password,
           options: {
-            emailRedirectTo: 'https://surfrider.io/pro' // or 'http://localhost:3000/pro' in dev
-          }
+            emailRedirectTo: 'http://localhost:3000/pro', // or 'https://surfrider.io/pro' in prod
+          },
         })
 
         if (error) {
           setMessage('❌ Sign up failed: ' + error.message)
         } else {
           setMessage(`
-            ✅ Welcome to SurfRider Pro!
-            
-            We’ve sent a confirmation link to your email.
-            Just click it to activate your account.
-            
-            🚀 After confirming, you’ll be redirected to your dashboard and receive your free Pro credit.
-            `)
+✅ Welcome to SurfRider Pro!
+
+We’ve sent a confirmation link to your email.
+Just click it to activate your account.
+
+🚀 After confirming, you’ll be redirected to your dashboard and receive your free Pro credit.
+          `)
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -62,9 +63,24 @@ export default function SignInSignUp() {
     }
   }
 
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage('')
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:3000/reset-password', // or 'https://surfrider.io/auth/callback'
+    })
+    if (error) {
+      setMessage('❌ ' + error.message)
+    } else {
+      setMessage('✅ Check your email for the password reset link.')
+    }
+    setLoading(false)
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 relative">
-      <Link href="/" className="absolute top-4 left-4 w-12 sm:w-14 z-50">
+      <Link href="/" className="absolute top-4 left-4 w-12 sm:w-14 z-50 cursor-pointer">
         <Image
           src="/surfrider-icon.png"
           alt="SurfRider Icon"
@@ -79,75 +95,128 @@ export default function SignInSignUp() {
         <div className="text-center">
           <Image
             src="/surfriderpro-logo.png"
-            alt="Surfrider Logo"
+            alt="SurfRider Pro"
             width={160}
             height={100}
             className="mx-auto mb-4"
             priority
           />
           <h1 className="text-2xl font-bold text-white">
-            {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
+            {forgotMode
+              ? 'Forgot your password?'
+              : mode === 'signUp'
+              ? 'Create your account'
+              : 'Welcome back'}
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
-            {mode === 'signUp'
+            {forgotMode
+              ? 'We’ll send you a reset link to your email'
+              : mode === 'signUp'
               ? 'Join SurfRider Pro and check your inbox to confirm'
               : 'Sign in to access Pro insights'}
           </p>
         </div>
 
-        <form onSubmit={handleAuth} className="space-y-4 bg-zinc-900/80 p-6 rounded-xl border border-zinc-700 shadow-md">
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition"
-          >
-            {loading ? 'Loading...' : mode === 'signUp' ? 'Sign Up' : 'Sign In'}
-          </button>
+        {!forgotMode ? (
+          <form onSubmit={handleAuth} className="space-y-4 bg-zinc-900/80 p-6 rounded-xl border border-zinc-700 shadow-md">
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition cursor-pointer"
+            >
+              {loading ? 'Loading...' : mode === 'signUp' ? 'Sign Up' : 'Sign In'}
+            </button>
 
-          {message && (
-  <div className="mt-4 bg-zinc-900 p-[2px] rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600">
-    <div className={"rounded-[10px] bg-zinc-900 p-5 text-white space-y-3 text-sm leading-relaxed ${dmMono.className}"}>
-      {message.split('\n').map((line, i) => (
-        <p key={i}>{line.trim()}</p>
-      ))}
-    </div>
-  </div>
-)}
-        </form>
+            {message && (
+              <div className="mt-4 bg-zinc-900 p-[2px] rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600">
+                <div className="rounded-[10px] bg-zinc-900 p-5 text-white space-y-3 text-sm leading-relaxed font-mono">
+                  {message.split('\n').map((line, i) => (
+                    <p key={i}>{line.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </form>
+        ) : (
+          <form onSubmit={handleReset} className="space-y-4 bg-zinc-900/80 p-6 rounded-xl border border-zinc-700 shadow-md">
+            <input
+              type="email"
+              placeholder="Your email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-zinc-600 bg-zinc-800 text-white"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition cursor-pointer"
+            >
+              {loading ? 'Sending...' : 'Send Reset Link'}
+            </button>
+            {message && (
+              <div className="mt-4 bg-zinc-900 p-[2px] rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600">
+                <div className="rounded-[10px] bg-zinc-900 p-5 text-white space-y-3 text-sm leading-relaxed font-mono">
+                  {message.split('\n').map((line, i) => (
+                    <p key={i}>{line.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </form>
+        )}
 
-        <div className="text-center text-sm text-gray-400">
-          {mode === 'signUp' ? (
-            <>
-              Already have an account?{' '}
-              <button onClick={() => setMode('signIn')} className="text-blue-400 hover:underline">
-                Sign In
-              </button>
-            </>
-          ) : (
-            <>
-              Need an account?{' '}
-              <button onClick={() => setMode('signUp')} className="text-blue-400 hover:underline">
-                Sign Up
-              </button>
-            </>
-          )}
-        </div>
+        {!forgotMode && mode === 'signIn' && (
+          <div className="text-center">
+            <button onClick={() => setForgotMode(true)} className="text-blue-400 hover:underline text-sm mt-2">
+              Forgot your password?
+            </button>
+          </div>
+        )}
+
+        {forgotMode && (
+          <div className="text-center text-sm mt-2">
+            <button onClick={() => setForgotMode(false)} className="text-zinc-400 hover:underline">
+              ← Back to sign in
+            </button>
+          </div>
+        )}
+
+        {!forgotMode && (
+          <div className="text-center text-sm text-gray-400">
+            {mode === 'signUp' ? (
+              <>
+                Already have an account?{' '}
+                <button onClick={() => setMode('signIn')} className="text-blue-400 hover:underline">
+                  Sign In
+                </button>
+              </>
+            ) : (
+              <>
+                Need an account?{' '}
+                <button onClick={() => setMode('signUp')} className="text-blue-400 hover:underline">
+                  Sign Up
+                </button>
+              </>
+            )}
+          </div>
+        )}
 
         <div className="mt-10 text-center border-t border-zinc-700 pt-6">
           <h2 className="text-xl font-semibold text-white mb-2">What is SurfRider Pro?</h2>
