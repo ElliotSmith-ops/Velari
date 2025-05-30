@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { toast } from 'react-hot-toast'
-import { Copy, Twitter, Linkedin, Reddit } from 'lucide-react'
+import { Copy, Twitter, Linkedin } from 'lucide-react'
 
 const RedditIcon = () => (
     <svg
