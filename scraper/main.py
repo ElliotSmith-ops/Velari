@@ -9,7 +9,7 @@ import sys
 
 # Fix path to import GPT logic
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shadow-market-scraper')))
-from gpt_insights import run_insight_pipeline
+from gpt_insights import run_insight_pipeline  # <-- must support query param
 from prawcore.exceptions import NotFound, Forbidden, Redirect
 
 # Load environment variables
@@ -97,7 +97,7 @@ async def scrape(request: ScrapeRequest):
         raise HTTPException(status_code=500, detail="No posts inserted. All subreddits may have failed.")
 
     print("🧠 Running GPT insight generation...")
-    run_insight_pipeline(user_id=request.user_id)
+    run_insight_pipeline(user_id=request.user_id, query=request.query)  # <-- pass query
 
     return {
         "success": True,

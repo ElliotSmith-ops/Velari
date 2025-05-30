@@ -102,17 +102,19 @@ Rules:
         print("❌ Error:", e)
         return None
 
-def run_insight_pipeline(user_id=None):
+def run_insight_pipeline(user_id=None, query=None):
     print("🧠🧠🧠 GPT INSIGHTS RUNNING 🧠🧠🧠", flush=True)
 
+    q = supabase.table("raw_posts").select("*").order("created_at", desc=True).limit(100)
 
-    query = supabase.table("raw_posts").select("*").limit(100)
-    query = query.eq("custom_user_id", user_id) if user_id else query.is_("custom_user_id", None)
-    posts = query.execute().data
-    print(f"📥 {len(posts)} posts fetched for user '{user_id}'")
+    if user_id:
+        q = q.eq("custom_user_id", user_id)
+    if query:
+        q = q.eq("custom_query", query)
 
+    posts = q.execute().data
+    print(f"📥 {len(posts)} posts fetched for user '{user_id}' and query '{query}'")
 
-    print(f"📥 {len(posts)} posts fetched")
     for post in posts:
         print(f"🔍 {post['title']}")
         if supabase.table("insights").select("id").eq("post_id", post["url"]).execute().data:
@@ -136,8 +138,8 @@ def run_insight_pipeline(user_id=None):
                 "novelty_score": int(insight_data["novelty_score"]),
                 "interesting_score": int(insight_data["interesting_score"]),
                 "created_at": datetime.utcnow().isoformat(),
-                "custom_query": post.get("custom_query", None),
-                "custom_user_id": user_id if user_id else None
+                "custom_query": query,
+                "custom_user_id": user_id
             }).execute()
             print("✅ Inserted insight:", post["url"])
         except Exception as e:
