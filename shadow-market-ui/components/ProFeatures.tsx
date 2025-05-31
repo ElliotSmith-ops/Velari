@@ -19,6 +19,22 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+const PRICE_OPTIONS = [
+  {
+    label: 'Starter Pack – 10 credits',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_10
+  },
+  {
+    label: 'Builder Pack – 50 credits',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_50
+  },
+  {
+    label: 'Founder Pack – Unlimited credits',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_UNLIMITED
+  }
+]
+
+
 export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [username, setUsername] = useState<string | null>(null)
   const [query, setQuery] = useState('')
@@ -30,6 +46,8 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [credits, setCredits] = useState<number | null>(null)
   const [scrapingMessage, setScrapingMessage] = useState<string | null>(null)
   const [showNoCreditsModal, setShowNoCreditsModal] = useState(false)
+  const [showCreditOptions, setShowCreditOptions] = useState(false)
+
 
 
 
@@ -62,8 +80,19 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
     window.location.href = '/'
   }
 
-  const handleBuyCredits = () => {
-    alert("🧠 Not implemented yet — but this is where you'd trigger Stripe or credit logic.")
+  const handleBuyCredits = async (priceId: string) => {
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId, userId })
+    })
+  
+    const data = await res.json()
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      toast.error('Error creating checkout session')
+    }
   }
 
   useEffect(() => {
@@ -189,11 +218,11 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
       Credits: <span className="text-white font-medium">{credits}</span>
     </span>
     <button
-      onClick={handleBuyCredits}
-      className="text-blue-400 hover:text-blue-300 font-medium"
-    >
-      Purchase Credits
-    </button>
+  onClick={() => setShowCreditOptions(true)}
+  className="text-blue-400 hover:text-blue-300 font-medium"
+>
+  Purchase Credits
+</button>
     <span
       onClick={handleSignOut}
       className="cursor-pointer hover:text-white transition"
@@ -202,6 +231,36 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
     </span>
   </div>
 </div>
+
+{showCreditOptions && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 shadow-xl">
+      <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-white text-center font-neon">
+        <h2 className="text-2xl font-bold mb-4">Choose Your Pack 🏄</h2>
+        <div className="space-y-3">
+          {PRICE_OPTIONS.map((opt) => (
+            <button
+              key={opt.priceId}
+              onClick={() => {
+                setShowCreditOptions(false)
+                handleBuyCredits(opt.priceId)
+              }}
+              className="w-full px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 hover:brightness-110 transition text-sm font-semibold text-white shadow"
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setShowCreditOptions(false)}
+          className="mt-6 text-purple-300 text-sm underline hover:text-white"
+        >
+          Nevermind
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800" />
       <main className="min-h-screen max-w-4xl mx-auto px-4 py-0 text-white">
         {/* Header */}
@@ -245,7 +304,7 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
           <button
             onClick={() => {
               setShowNoCreditsModal(false)
-              handleBuyCredits()
+              setShowCreditOptions(true)
             }}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 hover:brightness-110 transition text-sm font-semibold text-white shadow-lg"
             style={{
