@@ -42,6 +42,15 @@ export async function POST(req: NextRequest) {
         [process.env.STRIPE_PRICE_ID_Unlimited!]: 9999,
       }
 
+      console.log('📦 priceId from metadata:', priceId)
+      console.log('🧭 STRIPE_PRICE_ID_10 env:', process.env.STRIPE_PRICE_ID_10)
+      console.log('🗺 creditMap:', {
+            [process.env.STRIPE_PRICE_ID_10!]: 10,
+            [process.env.STRIPE_PRICE_ID_50!]: 50,
+            [process.env.STRIPE_PRICE_ID_Unlimited!]: 9999,
+        })
+       console.log('🎯 Match?', priceId === process.env.STRIPE_PRICE_ID_10)
+
       const creditsToAdd = creditMap[priceId!] || 0
 
       if (userId && creditsToAdd > 0) {
