@@ -238,18 +238,18 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
       <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-white text-center font-neon">
         <h2 className="text-2xl font-bold mb-4">Choose Your Pack 🏄</h2>
         <div className="space-y-3">
-          {PRICE_OPTIONS.map((opt) => (
-            <button
-              key={opt.priceId}
-              onClick={() => {
-                setShowCreditOptions(false)
-                handleBuyCredits(opt.priceId)
-              }}
-              className="w-full px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 hover:brightness-110 transition text-sm font-semibold text-white shadow"
-            >
-              {opt.label}
-            </button>
-          ))}
+        {PRICE_OPTIONS.filter(opt => opt.priceId).map((opt) => (
+        <button
+          key={opt.label}
+          onClick={() => {
+            setShowCreditOptions(false)
+            handleBuyCredits(opt.priceId!)
+          }}
+          className="w-full px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 hover:brightness-110 transition text-sm font-semibold text-white shadow"
+        >
+          {opt.label}
+        </button>
+        ))}
         </div>
         <button
           onClick={() => setShowCreditOptions(false)}
