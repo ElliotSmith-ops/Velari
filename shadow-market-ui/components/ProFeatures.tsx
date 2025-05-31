@@ -90,7 +90,6 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
       const { data, error } = await supabase
         .from('insights')
         .select('*')
-        .eq('custom_user_id', userId)
         .eq('custom_query', selectedQuery)
         .order('created_at', { ascending: false })
 
@@ -134,7 +133,7 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
         setMessage(data.error || 'Something went wrong')
       } else {
         const { subreddits } = data
-        setScrapingMessage(`🔍 Scraping Reddit for: ${subreddits.join(', ')}`)
+        setScrapingMessage(`🔍 Scouring the internet for: ${subreddits.join(', ')}. Results are generated live and can take 1-2 minutes.`)
 
         const trigger = await fetch('/api/scrape-subreddits', {
           method: 'POST',
@@ -143,7 +142,7 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
         })
         
         if (!trigger.ok) {
-          setScrapingMessage('❌ Failed to trigger scraper.')
+          setScrapingMessage('❌ Something went wrong. Fear not though, your credit has been refunded.')
         } else {
           setScrapingMessage('✅ Scraping complete! Fetching insights...')
           

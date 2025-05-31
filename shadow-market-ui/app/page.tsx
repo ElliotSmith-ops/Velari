@@ -67,6 +67,7 @@ function classNames(...classes: string[]) {
       let query = supabase
         .from('insights')
         .select('*')
+        .is('custom_query', null) // only return insights where custom_query is null
         .order(sortField, { ascending: false })
   
       if (sector) query = query.eq('sector', sector)
@@ -124,7 +125,7 @@ function classNames(...classes: string[]) {
 >
   signals
   <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-zinc-900 text-gray-300 text-xs p-3 rounded-lg border border-zinc-700 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
-  Signals are whispers from the internet's edge — we turn them into launch ideas.
+  Signals are whispers of product demand, market shifts, and consumer frustration points from the internet's edge — we turn them into launch ideas.
   </span>
 </span> from the internet’s raw frontier.
             </p>
@@ -235,6 +236,62 @@ function classNames(...classes: string[]) {
     <option value="urgency_score">Sort: Urgency</option>
     <option value="novelty_score">Sort: Novelty</option>
   </select>
+</div>
+
+<div className="mt-4 mb-4 flex justify-center">
+  <p
+    className="text-center text-base sm:text-md text-white font-semibold tracking-wide"
+    style={{ fontFamily: 'var(--font-orbitron)' }}
+  >
+    Looking for custom signals?{' '}
+    <Link href="/pro" className="relative group">
+      <span className="rainbow-text-underline">Try Pro</span>
+    </Link>{' '}
+    — search anything, we’ll generate your next million dollar idea.
+  </p>
+
+  <style jsx>{`
+    .rainbow-text-underline {
+      background: linear-gradient(
+        270deg,
+        #ff6ec4,
+        #7873f5,
+        #4ade80,
+        #facc15,
+        #ff6ec4
+      );
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 5s ease infinite;
+      position: relative;
+      font-weight: bold;
+    }
+
+    .rainbow-text-underline::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      height: 2px;
+      width: 100%;
+      background: inherit;
+      background-clip: border-box;
+      animation: rainbowShift 5s ease infinite;
+    }
+
+    @keyframes rainbowShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  `}</style>
 </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

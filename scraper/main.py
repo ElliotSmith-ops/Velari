@@ -84,7 +84,7 @@ async def scrape(request: ScrapeRequest):
                     "custom_user_id": request.user_id
                 }
 
-                existing = supabase.table("raw_posts").select("id").eq("url", post_data["url"]).execute()
+                existing = supabase.table("raw_posts").select("id").eq("url", post_data["url"]).eq("custom_query", request.query).execute()
                 if not existing.data:
                     supabase.table("raw_posts").insert(post_data).execute()
                     inserted += 1
@@ -98,7 +98,9 @@ async def scrape(request: ScrapeRequest):
 
     print("🧠 Running GPT insight generation...")
     run_insight_pipeline(user_id=request.user_id, query=request.query)  # <-- pass query
-
+    user = supabase.table("users").select("credits").eq("id", request.user_id).single().execute().data
+    if user and user["credits"] > 0:
+        supabase.table("users").update({"credits": user["credits"] - 1}).eq("id", request.user_id).execute()
     return {
         "success": True,
         "inserted_posts": inserted,
