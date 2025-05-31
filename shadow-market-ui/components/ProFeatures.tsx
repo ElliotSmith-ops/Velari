@@ -29,6 +29,8 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [results, setResults] = useState<any[]>([])
   const [credits, setCredits] = useState<number | null>(null)
   const [scrapingMessage, setScrapingMessage] = useState<string | null>(null)
+  const [showNoCreditsModal, setShowNoCreditsModal] = useState(false)
+
 
 
 
@@ -116,6 +118,10 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
       setMessage('❌ You must be signed in to use Pro features.')
       return
     }
+    if (!credits || credits <= 0) {
+      setShowNoCreditsModal(true)
+      return
+    }
 
     setLoading(true)
     setMessage('')
@@ -145,6 +151,7 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
           setScrapingMessage('❌ Something went wrong. Fear not though, your credit has been refunded.')
         } else {
           setScrapingMessage('✅ Scraping complete! Fetching insights...')
+          setCredits((prev) => (prev !== null ? prev - 1 : null))
           
           // Trigger re-fetch of results
           setTimeout(() => {
@@ -220,7 +227,39 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
         </p>
     </div>
 </div>
-
+{showNoCreditsModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 shadow-xl">
+      <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-center text-white font-neon">
+        <h2 className="text-2xl font-bold mb-2">Out of Credits 🏄</h2>
+        <p className="text-gray-400 mb-6 text-sm">
+          You’ve used all your Pro searches.<br />Recharge to keep surfing the signal.
+        </p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => setShowNoCreditsModal(false)}
+            className="px-4 py-2 rounded-xl border border-purple-500 text-sm text-purple-300 hover:bg-zinc-800 transition shadow"
+          >
+            Maybe Later
+          </button>
+          <button
+            onClick={() => {
+              setShowNoCreditsModal(false)
+              handleBuyCredits()
+            }}
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 hover:brightness-110 transition text-sm font-semibold text-white shadow-lg"
+            style={{
+              textShadow: '0px 1px 2px rgba(0,0,0,0.7)',
+              backgroundClip: 'padding-box'
+            }}
+          >
+            Buy Credits
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
   <label className="block text-sm text-gray-300 mb-1">Describe what you’re exploring</label>
