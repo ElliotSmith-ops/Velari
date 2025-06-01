@@ -69,9 +69,9 @@ export default function MobileHomePage() {
         style={{
           backgroundColor: 'black',
           borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
-          color: 'transparent',
-          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
+          WebkitBackgroundClip: 'text',
         }}
       >
         Try SurfRider Pro
@@ -132,33 +132,39 @@ export default function MobileHomePage() {
           >
             <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand ⬇</div>
             <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
-            <p className="text-xs text-zinc-400 mt-1 italic">Sector: {insight.sector}</p>
+            <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
+              <span className="neon-tag">🏷 {insight.sector}</span>
+              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
+              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
+              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+            </div>
 
             {expandedIndex === i && (
               <>
                 <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
-                  {insight.why_it_matters || insight.why}
+                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
                 </p>
                 <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
-                  Action: {insight.action_angle || insight.action}
+                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
                 </p>
               </>
             )}
 
             <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
-              <p className="italic">
-                Tone: {insight.tone} | Urgency: {insight.urgency_score || insight.urgency} | Novelty: {insight.novelty_score || insight.novelty}
-              </p>
               <div className="flex gap-2 items-center">
-                <a
-                  href={insight.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 underline"
-                >
-                  Origin
-                </a>
-                <CopyButton text={insight.signal} />
+                {insight.post_id && (
+                  <a
+                    href={insight.post_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 underline"
+                  >
+                    Origin
+                  </a>
+                )}
+                <CopyButton
+                  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+                />
                 <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
               </div>
             </div>
