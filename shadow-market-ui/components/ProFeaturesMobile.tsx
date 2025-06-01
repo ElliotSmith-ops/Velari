@@ -8,6 +8,8 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import ShareButton from '@/components/ShareButton'
+import { ClipboardCopy, ExternalLink, Share2 } from 'lucide-react'
+
 
 
 type ProFeaturesMobileProps = {
