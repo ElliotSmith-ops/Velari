@@ -77,7 +77,7 @@ export default function MobileHomePage() {
     </span>
   </div>
 </a>
-<p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
+<p className="mt-0 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
 
 
       {/* Search and Filters */}
