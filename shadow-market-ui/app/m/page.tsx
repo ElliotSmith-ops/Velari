@@ -15,7 +15,7 @@ export default function MobileHomePage() {
   const [filter, setFilter] = useState('')
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const [sector, setSector] = useState('')
-  const [sortField, setSortField] = useState('created_at')
+  const [sortField, setSortField] = useState('interesting_score')
 
   useEffect(() => {
     const fetchInsights = async () => {
@@ -64,22 +64,26 @@ export default function MobileHomePage() {
 
       {/* CTA */}
       <a
-        href="/m/pro"
-        className="relative w-full text-lg font-bold text-center py-3 rounded-xl bg-black text-transparent bg-clip-text"
-        style={{
-            backgroundImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-        }}
-       >
-      <span className="relative z-10">Try SurfRider Pro</span>
-      <span
-        className="absolute inset-0 rounded-xl border-2"
-        style={{
-        borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
-        }}
-        />
-      </a>
+  href="/m/pro"
+  className="relative w-full py-3 text-lg font-bold text-center rounded-xl bg-black overflow-hidden group"
+>
+  <span
+    className="relative z-10 bg-clip-text text-transparent"
+    style={{
+      backgroundImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    }}
+  >
+    Try SurfRider Pro
+  </span>
+  <span
+    className="absolute inset-0 rounded-xl pointer-events-none border-2"
+    style={{
+      borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+    }}
+  />
+</a>
 
       {/* Search and Filters */}
       <div className="flex flex-col gap-2">
@@ -120,7 +124,7 @@ export default function MobileHomePage() {
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
         >
-          <option value="created_at">Sort: Default</option>
+          <option value="interesting_score">Sort: Default</option>
           <option value="urgency_score">Sort: Urgency</option>
           <option value="novelty_score">Sort: Novelty</option>
         </select>
@@ -164,7 +168,7 @@ export default function MobileHomePage() {
                     className="blue-neon-tag hover:underline"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    🔗 Insight Origin
+                    Insight Origin
                   </a>
                 )}
                 <CopyButton
