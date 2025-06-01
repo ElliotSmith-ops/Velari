@@ -59,8 +59,16 @@ export default function MobileHomePage() {
       {/* CTA */}
       <a
         href="/m/pro"
-        className="w-full border-2 bg-black border-gradient-to-r from-pink-500 via-yellow-500 to-green-500 text-transparent bg-clip-text text-lg font-bold text-center py-3 rounded-xl"
-        style={{ borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1' }}
+        className="w-full bg-black border-2 border-transparent rounded-xl text-lg font-bold text-center py-3"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #000, #000), linear-gradient(to right, #ec4899, #facc15, #22c55e)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+          color: 'transparent',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}
       >
         Try SurfRider Pro
       </a>
@@ -93,30 +101,30 @@ export default function MobileHomePage() {
             className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800"
             onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           >
-            <p className="font-semibold text-lg text-white">{insight.signal}</p>
+            <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
 
             {expandedIndex === i && (
               <>
-                <p className="text-sm text-gray-400 mt-2">{insight.why}</p>
-                <p className="text-sm text-purple-400 mt-1 italic">Action: {insight.action}</p>
+                <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">{insight.why}</p>
+                <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">Action: {insight.action}</p>
               </>
             )}
 
-            <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
+            <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
               <p className="italic">
                 Tone: {insight.tone} | Urgency: {insight.urgency} | Novelty: {insight.novelty}
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <a
                   href={insight.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline text-blue-400"
+                  className="text-blue-400 underline"
                 >
                   Origin
                 </a>
-                <CopyButton text={insight.signal} />
-                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+                <CopyButton text={insight.signal} className="bg-zinc-700 text-white px-2 py-1 rounded text-xs" />
+                <ShareButton insight={{ id: insight.id, signal: insight.signal }} className="text-white text-lg" />
               </div>
             </div>
           </div>
