@@ -201,55 +201,51 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           {results.map((insight , i) => (
           <div
           key={i}
-          className="border-2 rounded-xl p-4 shadow bg-zinc-800 relative"
-          style={{
-            borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
-            borderImageSlice: 1
-          }}
           onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+          className="rounded-xl p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
         >
-          <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
-          <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
-          <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
-            <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-            <span className="neon-tag">🎭 Sector: {insight.sector}</span>
-            <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
-            <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+          <div className="rounded-xl p-4 shadow bg-zinc-800 relative">
+            <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
+            <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
+            <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
+              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
+              <span className="neon-tag">🎭 Sector: {insight.sector}</span>
+              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
+              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+            </div>
+        
+            {expandedIndex === i && (
+              <>
+                <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
+                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
+                </p>
+                <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
+                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
+                </p>
+              </>
+            )}
+        
+            <div className="flex gap-4 mt-4 justify-start items-center flex-wrap">
+              {insight.post_id && (
+                <a
+                  href={insight.post_id}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-blue-400 hover:text-white transition cursor-pointer"
+                  title="View original post"
+                >
+                  <ExternalLink size={18} />
+                </a>
+              )}
+        
+              <CopyButton
+                text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
+              />
+        
+              <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+            </div>
           </div>
-
-          {expandedIndex === i && (
-            <>
-              <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
-                <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
-              </p>
-              <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
-                <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
-              </p>
-            </>
-          )}
-
-<div className="flex gap-4 mt-4 justify-start items-center flex-wrap">
-{insight.post_id && (
-  <a
-    href={insight.post_id}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={(e) => e.stopPropagation()}
-    className="text-blue-400 hover:text-white transition cursor-pointer"
-    title="View original post"
-  >
-    <ExternalLink size={18} />
-  </a>
-)}
-
-<CopyButton
-  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
-/>
-
-<ShareButton
-  insight={{ id: insight.id, signal: insight.signal }}
-/>
-</div>
         </div>
           ))}
         </div>
