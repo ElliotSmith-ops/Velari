@@ -14,19 +14,25 @@ export default function MobileHomePage() {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('')
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [sector, setSector] = useState('')
+  const [sortField, setSortField] = useState('created_at')
 
   useEffect(() => {
     const fetchInsights = async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('insights')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order(sortField, { ascending: false })
+
+      if (sector) query = query.eq('sector', sector)
+
+      const { data, error } = await query
 
       if (data) setInsights(data)
     }
 
     fetchInsights()
-  }, [])
+  }, [sector, sortField])
 
   const filteredInsights = insights.filter((insight) => {
     const matchesSearch = search
@@ -57,14 +63,21 @@ export default function MobileHomePage() {
       </div>
 
       {/* CTA */}
-      <Link
+      <a
         href="/m/pro"
-        className="w-full rounded-xl border-2 border-purple-400 py-3 text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 text-lg"
+        className="w-full border-2 rounded-xl text-lg font-bold text-center py-3"
+        style={{
+          backgroundColor: 'black',
+          borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+          color: 'transparent',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
       >
         Try SurfRider Pro
-      </Link>
+      </a>
 
-      {/* Search and Filter */}
+      {/* Search and Filters */}
       <div className="flex flex-col gap-2">
         <input
           className="p-3 rounded bg-zinc-800 text-white placeholder-gray-400"
@@ -82,6 +95,31 @@ export default function MobileHomePage() {
           <option value="insightful">Insightful</option>
           <option value="speculative">Speculative</option>
         </select>
+        <select
+          className="p-3 rounded bg-zinc-800 text-white"
+          value={sector}
+          onChange={(e) => setSector(e.target.value)}
+        >
+          <option value="">All Sectors</option>
+          <option value="Ecommerce">Ecommerce</option>
+          <option value="SaaS">SaaS</option>
+          <option value="Creator Tools">Creator Tools</option>
+          <option value="Health">Health</option>
+          <option value="AI">AI</option>
+          <option value="Education">Education</option>
+          <option value="Finance">Finance</option>
+          <option value="Consumer">Consumer</option>
+          <option value="Other">Other</option>
+        </select>
+        <select
+          className="p-3 rounded bg-zinc-800 text-white"
+          value={sortField}
+          onChange={(e) => setSortField(e.target.value)}
+        >
+          <option value="created_at">Sort: Default</option>
+          <option value="urgency_score">Sort: Urgency</option>
+          <option value="novelty_score">Sort: Novelty</option>
+        </select>
       </div>
 
       {/* Feed */}
@@ -89,48 +127,39 @@ export default function MobileHomePage() {
         {filteredInsights.map((insight, i) => (
           <div
             key={i}
-            className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800"
+            className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800 relative"
             onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           >
-            <p className="font-semibold text-lg text-white whitespace-pre-wrap">🔍 {insight.signal}</p>
+            <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand ⬇</div>
+            <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
+            <p className="text-xs text-zinc-400 mt-1 italic">Sector: {insight.sector}</p>
 
             {expandedIndex === i && (
               <>
-                <p className="text-sm text-zinc-300 mt-2 whitespace-pre-wrap">
-                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
+                <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
+                  {insight.why_it_matters || insight.why}
                 </p>
-                <p className="text-sm text-zinc-300 mt-2 whitespace-pre-wrap">
-                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
+                <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
+                  Action: {insight.action_angle || insight.action}
                 </p>
               </>
             )}
 
-            <div className="flex flex-wrap justify-start items-center gap-2 mt-3 text-xs text-gray-400">
-              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
-              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
-              {insight.url && (
+            <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
+              <p className="italic">
+                Tone: {insight.tone} | Urgency: {insight.urgency_score || insight.urgency} | Novelty: {insight.novelty_score || insight.novelty}
+              </p>
+              <div className="flex gap-2 items-center">
                 <a
                   href={insight.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="blue-neon-tag hover:underline"
-                  onClick={(e) => e.stopPropagation()}
+                  className="text-blue-400 underline"
                 >
-                  🔗 Origin
+                  Origin
                 </a>
-              )}
-              <div onClick={(e) => e.stopPropagation()}>
-                <CopyButton
-                  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters || insight.why}\n\n🛠 Action Angle: ${insight.action_angle || insight.action}`}
-                  className="text-xs px-2 py-1 border border-blue-400 rounded hover:bg-blue-500/10"
-                />
-              </div>
-              <div onClick={(e) => e.stopPropagation()}>
-                <ShareButton
-                  insight={{ id: insight.id, signal: insight.signal }}
-                  className="text-white text-lg"
-                />
+                <CopyButton text={insight.signal} />
+                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
               </div>
             </div>
           </div>
