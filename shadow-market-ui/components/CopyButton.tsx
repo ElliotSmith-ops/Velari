@@ -1,16 +1,18 @@
+// components/CopyButton.tsx
 'use client'
 
 import { useState } from 'react'
+import { ClipboardCopy, Check } from 'lucide-react'
 
 type Props = {
   text: string
-  className?: string
 }
 
-export default function CopyButton({ text, className = '' }: Props) {
+export default function CopyButton({ text }: Props) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.stopPropagation()
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
@@ -22,15 +24,11 @@ export default function CopyButton({ text, className = '' }: Props) {
 
   return (
     <button
-  onClick={(e) => {
-    e.stopPropagation() // Prevents parent click
-    handleCopy()
-  }}
-  className="blue-neon-tag text-blue-400 border-blue-400 hover:bg-blue-500/10 transition w-full sm:w-auto group"
->
-      {copied ? '✅ Copied!' : (
-        <span className="group-hover:underline">📋 Copy</span>
-      )}
+      onClick={handleCopy}
+      className="text-zinc-400 hover:text-white transition cursor-pointer"
+      title="Copy insight"
+    >
+      {copied ? <Check size={16} /> : <ClipboardCopy size={16} />}
     </button>
   )
 }

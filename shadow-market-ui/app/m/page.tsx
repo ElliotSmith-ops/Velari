@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
 import ShareButton from '@/components/ShareButton'
 import { FiExternalLink, FiCopy, FiShare2 } from 'react-icons/fi'
+import { ClipboardCopy, ExternalLink, Share2 } from 'lucide-react'
 
 
 export default function MobileHomePage() {
@@ -150,39 +151,27 @@ export default function MobileHomePage() {
               </>
             )}
 
-<div className="flex gap-4 mt-4 items-center text-xl text-zinc-400">
+<div className="flex gap-4 mt-4 justify-start items-center flex-wrap">
   {insight.post_id && (
     <a
       href={insight.post_id}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      title="View source"
-      className="hover:text-blue-400 transition"
+      className="text-blue-400 hover:text-white transition cursor-pointer"
+      title="View original post"
     >
-      <FiExternalLink size={20} />
+      <ExternalLink size={18} />
     </a>
   )}
 
-  <button
-    onClick={(e) => {
-      e.stopPropagation()
-      navigator.clipboard.writeText(
-        `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`
-      )
-    }}
-    title="Copy insight"
-    className="hover:text-blue-400 transition"
-  >
-    <FiCopy size={20} />
-  </button>
+  <CopyButton
+    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+  />
 
   <ShareButton
     insight={{ id: insight.id, signal: insight.signal }}
-    className="hover:text-blue-400 transition"
-  >
-    <FiShare2 size={20} />
-  </ShareButton>
+  />
 </div>
           </div>
         ))}

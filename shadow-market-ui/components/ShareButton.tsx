@@ -7,7 +7,6 @@ import ShareModal from '@/components/Share/ShareModal'
 type ShareButtonProps = {
   insight: { id: string; signal: string }
   className?: string
-  children?: React.ReactNode // <- add this
 }
 
 export default function ShareButton({ insight, className = '' }: ShareButtonProps) {
@@ -15,16 +14,15 @@ export default function ShareButton({ insight, className = '' }: ShareButtonProp
 
   return (
     <>
-<button
-  onClick={(e) => {
-    e.stopPropagation()
-    setIsOpen(true)
-  }}
-  className={className}
-  title="Share insight"
->
-  {children ?? <Share2 size={16} />}
-</button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsOpen(true)
+        }}
+        className={`text-zinc-400 hover:text-white transition cursor-pointer ${className}`}
+      >
+        <Share2 size={16} />
+      </button>
 
       <ShareModal
         isOpen={isOpen}
