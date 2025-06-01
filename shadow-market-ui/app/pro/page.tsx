@@ -1,16 +1,25 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import SignInSignUp from '@/components/SignInSignUp'
 import ProFeatures from '@/components/ProFeatures'
 
+
 export default function ProPage() {
   const [userId, setUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const init = async () => {
+
+      if (window.innerWidth <= 768) {
+        router.replace('/m/pro')
+        return
+      }
+  
       // First: check Supabase auth session (for email confirm redirects)
       const {
         data: { session },
