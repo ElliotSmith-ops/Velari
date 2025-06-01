@@ -123,18 +123,26 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
         <Link href="/" className="w-10">
           <Image src="/surfrider-icon.png" alt="SurfRider" width={40} height={40} />
         </Link>
-        <div className="text-xs text-gray-400">Credits: <span className="text-white">{credits}</span></div>
-        <button
-  onClick={async () => {
-    await supabase.auth.signOut()
-    localStorage.removeItem('fake_user')
-    window.location.href = '/'
-  }}
-  className="text-xs text-red-400 hover:text-white transition"
->
-  Sign Out
-</button>
-      </div>
+        <div className="flex flex-col items-end text-xs text-right gap-1">
+    <span className="text-gray-400">Credits: <span className="text-white">{credits}</span></span>
+    <div className="flex gap-2">
+      <button
+        onClick={() => toast('🛒 Not implemented yet')}
+        className="text-blue-400 hover:text-white transition underline"
+      >
+        Buy Credits
+      </button>
+      <button
+        onClick={async () => {
+          await supabase.auth.signOut()
+          localStorage.removeItem('fake_user')
+          window.location.href = '/'
+        }}
+        className="text-red-400 hover:text-white transition"
+      >
+        Sign Out
+      </button>
+    </div>
 
       {/* Welcome + Query Form */}
       <div className="text-center mb-6">
@@ -159,6 +167,23 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           {loading ? 'Scanning...' : 'Scan Trends'}
         </button>
       </form>
+
+      {userQueries.length > 0 && (
+  <div className="mt-4">
+    <label className="block text-xs text-zinc-400 mb-1">Select past query:</label>
+    <select
+      value={selectedQuery}
+      onChange={(e) => setSelectedQuery(e.target.value)}
+      className="w-full px-4 py-2 rounded-xl border border-zinc-600 bg-zinc-800 text-white text-sm"
+    >
+      <option value="">-- Select a past query --</option>
+      {userQueries.map((q, i) => (
+        <option key={i} value={q}>{q}</option>
+      ))}
+    </select>
+  </div>
+)}
+
 
       {scrapingMessage && <p className="text-sm text-purple-400 mt-4">{scrapingMessage}</p>}
 
