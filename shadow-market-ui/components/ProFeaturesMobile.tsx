@@ -20,7 +20,21 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
-
+const PRICE_OPTIONS = [
+    {
+      label: 'Starter Pack – 10 credits',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_10 || ''
+    },
+    {
+      label: 'Builder Pack – 50 credits',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_50 || ''
+    },
+    {
+      label: 'Founder Pack – Unlimited credits',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_UNLIMITED || ''
+    }
+  ]
+  
 export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   const [username, setUsername] = useState<string | null>(null)
   const [credits, setCredits] = useState<number | null>(null)
