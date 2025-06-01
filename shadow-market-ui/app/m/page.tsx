@@ -75,8 +75,9 @@ export default function MobileHomePage() {
     <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400">
       Try SurfRider Pro
     </span>
-    <p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
   </div>
+  <p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
+
 </a>
 
       {/* Search and Filters */}
