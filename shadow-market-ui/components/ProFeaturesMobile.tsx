@@ -152,6 +152,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   </div>
 </div>
 
+
       {/* Welcome + Query Form */}
       <div className="text-center mb-6">
         <Image src="/surfriderpro-logo.png" alt="SurfRider Pro" width={140} height={40} className="mx-auto mb-2" />
