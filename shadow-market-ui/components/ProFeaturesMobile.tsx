@@ -114,7 +114,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
     }
 
     fetchResults()
-  }, [selectedQuery])
+  }, [selectedQuery]);
 
   return (
     <div className="p-4 text-white max-w-md mx-auto">
@@ -142,6 +142,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
       >
         Sign Out
       </button>
+    </div>
     </div>
     </div>
 
