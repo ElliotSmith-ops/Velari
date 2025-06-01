@@ -41,6 +41,12 @@ export default function Home() {
   const sectors = ['ecommerce', 'SaaS', 'creator', 'health', 'other']
 const tones = ['curious', 'frustrated', 'excited', 'reflective']
 
+useEffect(() => {
+  if (window.innerWidth < 768) {
+    router.replace('/m')
+  }
+}, [])
+
 const sortOptions = [
   { label: 'Default', value: 'interesting_score' },
   { label: 'Urgency', value: 'urgency_score' },
