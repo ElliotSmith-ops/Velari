@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 
@@ -33,7 +34,7 @@ export default function MobileHomePage() {
   })
 
   return (
-    <main className="bg-zinc-900 min-h-screen text-white px-4 py-6 flex flex-col gap-6">
+    <main className="bg-zinc-900 min-h-screen text-white pb-20 px-4 py-6 flex flex-col gap-6">
       {/* Logo */}
       <div className="flex justify-center">
         <Image
@@ -89,6 +90,22 @@ export default function MobileHomePage() {
           </div>
         ))}
       </div>
+
+      {/* Bottom Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 flex justify-around py-2 text-sm text-gray-400">
+        <Link href="/m" className="flex flex-col items-center">
+          <span>🏠</span>
+          <span>Home</span>
+        </Link>
+        <Link href="/m/pro" className="flex flex-col items-center">
+          <span>🔍</span>
+          <span>Pro</span>
+        </Link>
+        <Link href="/m/account" className="flex flex-col items-center">
+          <span>👤</span>
+          <span>Account</span>
+        </Link>
+      </nav>
     </main>
   )
 }  
