@@ -30,6 +30,8 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   const [userQueries, setUserQueries] = useState<string[]>([])
   const [selectedQuery, setSelectedQuery] = useState('')
   const [showNoCreditsModal, setShowNoCreditsModal] = useState(false)
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
 
   const router = useRouter()
 
