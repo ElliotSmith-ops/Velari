@@ -411,9 +411,11 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
             )}
             <div onClick={(e) => e.stopPropagation()}>
               <CopyButton
-                text={` ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+                text={` ${insight.signal}\n\n Why It Matters: ${insight.why_it_matters}\n\n Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
               />
-              <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+              <div className="flex justify-between items-start">
+                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+              </div>
 
             </div>
           </div>
