@@ -57,21 +57,12 @@ export default function MobileHomePage() {
       </div>
 
       {/* CTA */}
-      <a
+      <Link
         href="/m/pro"
-        className="w-full bg-black border-2 border-transparent rounded-xl text-lg font-bold text-center py-3"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, #000, #000), linear-gradient(to right, #ec4899, #facc15, #22c55e)',
-          backgroundOrigin: 'border-box',
-          backgroundClip: 'padding-box, border-box',
-          color: 'transparent',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}
+        className="w-full rounded-xl border-2 border-purple-400 py-3 text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 text-lg"
       >
         Try SurfRider Pro
-      </a>
+      </Link>
 
       {/* Search and Filter */}
       <div className="flex flex-col gap-2">
@@ -101,30 +92,45 @@ export default function MobileHomePage() {
             className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800"
             onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           >
-            <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
+            <p className="font-semibold text-lg text-white whitespace-pre-wrap">🔍 {insight.signal}</p>
 
             {expandedIndex === i && (
               <>
-                <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">{insight.why}</p>
-                <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">Action: {insight.action}</p>
+                <p className="text-sm text-zinc-300 mt-2 whitespace-pre-wrap">
+                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
+                </p>
+                <p className="text-sm text-zinc-300 mt-2 whitespace-pre-wrap">
+                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
+                </p>
               </>
             )}
 
-            <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
-              <p className="italic">
-                Tone: {insight.tone} | Urgency: {insight.urgency} | Novelty: {insight.novelty}
-              </p>
-              <div className="flex gap-2 items-center">
+            <div className="flex flex-wrap justify-start items-center gap-2 mt-3 text-xs text-gray-400">
+              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
+              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
+              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+              {insight.url && (
                 <a
                   href={insight.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 underline"
+                  className="blue-neon-tag hover:underline"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  Origin
+                  🔗 Origin
                 </a>
-                <CopyButton text={insight.signal} className="bg-zinc-700 text-white px-2 py-1 rounded text-xs" />
-                <ShareButton insight={{ id: insight.id, signal: insight.signal }} className="text-white text-lg" />
+              )}
+              <div onClick={(e) => e.stopPropagation()}>
+                <CopyButton
+                  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters || insight.why}\n\n🛠 Action Angle: ${insight.action_angle || insight.action}`}
+                  className="text-xs px-2 py-1 border border-blue-400 rounded hover:bg-blue-500/10"
+                />
+              </div>
+              <div onClick={(e) => e.stopPropagation()}>
+                <ShareButton
+                  insight={{ id: insight.id, signal: insight.signal }}
+                  className="text-white text-lg"
+                />
               </div>
             </div>
           </div>
