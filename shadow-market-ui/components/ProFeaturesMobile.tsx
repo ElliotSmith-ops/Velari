@@ -7,6 +7,8 @@ import CopyButton from '@/components/CopyButton'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import ShareButton from '@/components/ShareButton'
+
 
 type ProFeaturesMobileProps = {
   userId: string
