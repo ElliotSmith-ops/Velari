@@ -22,9 +22,12 @@ export default function CopyButton({ text, className = '' }: Props) {
 
   return (
     <button
-      onClick={handleCopy}
-      className={`blue-neon-tag text-blue-400 border-blue-400 hover:bg-blue-500/10 transition w-full sm:w-auto group ${className}`}
-    >
+  onClick={(e) => {
+    e.stopPropagation() // Prevents parent click
+    handleCopy()
+  }}
+  className="blue-neon-tag text-blue-400 border-blue-400 hover:bg-blue-500/10 transition w-full sm:w-auto group"
+>
       {copied ? '✅ Copied!' : (
         <span className="group-hover:underline">📋 Copy</span>
       )}

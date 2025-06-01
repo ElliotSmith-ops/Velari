@@ -65,16 +65,20 @@ export default function MobileHomePage() {
       {/* CTA */}
       <a
         href="/m/pro"
-        className="w-full border-2 rounded-xl text-lg font-bold text-center py-3"
+        className="relative w-full text-lg font-bold text-center py-3 rounded-xl bg-black text-transparent bg-clip-text"
         style={{
-          backgroundColor: 'black',
-          borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
-          backgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          WebkitBackgroundClip: 'text',
+            backgroundImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
         }}
-      >
-        Try SurfRider Pro
+       >
+      <span className="relative z-10">Try SurfRider Pro</span>
+      <span
+        className="absolute inset-0 rounded-xl border-2"
+        style={{
+        borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+        }}
+        />
       </a>
 
       {/* Search and Filters */}
@@ -130,11 +134,11 @@ export default function MobileHomePage() {
             className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800 relative"
             onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           >
-            <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand ⬇</div>
+            <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
             <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
             <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
-              <span className="neon-tag">🏷 {insight.sector}</span>
               <span className="neon-tag">🎭 Tone: {insight.tone}</span>
+              <span className="neon-tag">🎭 Sector: {insight.sector}</span>
               <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
               <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
             </div>
@@ -157,9 +161,10 @@ export default function MobileHomePage() {
                     href={insight.post_id}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline"
+                    className="blue-neon-tag hover:underline"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    Origin
+                    🔗 Insight Origin
                   </a>
                 )}
                 <CopyButton
