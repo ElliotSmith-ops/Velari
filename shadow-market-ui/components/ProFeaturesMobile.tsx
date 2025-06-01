@@ -143,6 +143,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
         Sign Out
       </button>
     </div>
+    </div>
 
       {/* Welcome + Query Form */}
       <div className="text-center mb-6">
