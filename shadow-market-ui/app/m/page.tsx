@@ -61,7 +61,8 @@ export default function MobileHomePage() {
 
       {/* Headline */}
       <div className="text-center">
-        <h1 className="text-base text-gray-300 font-medium">
+        <h1 className="text-base text-gray-300 font-medium"   style={{ fontFamily: 'var(--font-modern)' }}
+        >
           AI-Curated Signals from the Internet's Frontier
         </h1>
       </div>
@@ -130,24 +131,25 @@ export default function MobileHomePage() {
           <div
             key={i}
             className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800 relative"
+            style={{ fontFamily: 'var(--font-modern)' }}
             onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           >
             <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
             <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
             <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
-              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-              <span className="neon-tag">🎭 Sector: {insight.sector}</span>
-              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
-              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+              <span className="neon-tag"> Tone: {insight.tone}</span>
+              <span className="neon-tag"> Sector: {insight.sector}</span>
+              <span className="neon-tag"> Urgency: {insight.urgency_score || insight.urgency}</span>
+              <span className="neon-tag"> Novelty: {insight.novelty_score || insight.novelty}</span>
             </div>
 
             {expandedIndex === i && (
               <>
                 <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
-                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
+                  <strong className="text-white"> Why It Matters:</strong> {insight.why_it_matters || insight.why}
                 </p>
                 <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
-                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
+                  <strong className="text-white"> Action Angle:</strong> {insight.action_angle || insight.action}
                 </p>
               </>
             )}
@@ -167,7 +169,7 @@ export default function MobileHomePage() {
   )}
 
   <CopyButton
-    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
+    text={`🔍 ${insight.signal}\n\n Why It Matters: ${insight.why_it_matters}\n\n Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
   />
 
   <ShareButton

@@ -34,7 +34,7 @@ const PRICE_OPTIONS = [
       priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_UNLIMITED || ''
     }
   ]
-  
+
 export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   const [username, setUsername] = useState<string | null>(null)
   const [credits, setCredits] = useState<number | null>(null)
@@ -162,7 +162,9 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   </Link>
 
   {/* Right: Capsule */}
-  <div className="flex items-center gap-1 px-4 py-2 border border-zinc-700 rounded-full text-xs text-gray-200 bg-zinc-900 shadow-sm">
+  <div className="flex items-center gap-1 px-4 py-2 border border-zinc-700 rounded-full text-xs text-gray-200 bg-zinc-900 shadow-sm"
+    style={{ fontFamily: 'var(--font-modern)' }}
+>
     <span>
       <span className="text-white font-semibold">Credits:</span>
       <span className="text-white">{credits}</span>
@@ -272,24 +274,26 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           key={i}
           onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
           className="rounded-xl p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
+          style={{ fontFamily: 'var(--font-modern)' }}
+
         >
           <div className="rounded-xl p-4 shadow bg-zinc-800 relative">
             <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
             <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
             <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
-              <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-              <span className="neon-tag">🎭 Sector: {insight.sector}</span>
-              <span className="neon-tag">🔥 Urgency: {insight.urgency_score || insight.urgency}</span>
-              <span className="neon-tag">💡 Novelty: {insight.novelty_score || insight.novelty}</span>
+              <span className="neon-tag"> Tone: {insight.tone}</span>
+              <span className="neon-tag"> Sector: {insight.sector}</span>
+              <span className="neon-tag"> Urgency: {insight.urgency_score || insight.urgency}</span>
+              <span className="neon-tag"> Novelty: {insight.novelty_score || insight.novelty}</span>
             </div>
         
             {expandedIndex === i && (
               <>
                 <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
-                  <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters || insight.why}
+                  <strong className="text-white"> Why It Matters:</strong> {insight.why_it_matters || insight.why}
                 </p>
                 <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
-                  <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle || insight.action}
+                  <strong className="text-white"> Action Angle:</strong> {insight.action_angle || insight.action}
                 </p>
               </>
             )}
@@ -309,7 +313,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
               )}
         
               <CopyButton
-                text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
+                text={`🔍 ${insight.signal}\n\n Why It Matters: ${insight.why_it_matters}\n\n Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
               />
         
               <ShareButton insight={{ id: insight.id, signal: insight.signal }} />

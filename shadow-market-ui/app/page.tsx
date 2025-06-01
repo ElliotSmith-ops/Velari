@@ -122,10 +122,12 @@ function classNames(...classes: string[]) {
               priority
             />
             <h1 className="mt-4 text-3xl sm:text-4xl font-bold leading-snug">
-              <span className="text-purple-400">Trends rise fast.</span><br />
-              <span className="text-white">SurfRider moves faster.</span>
+              <span className="text-purple-400"   style={{ fontFamily: 'var(--font-modern)' }}
+              >Trends rise fast.</span><br />
+              <span className="text-white"   style={{ fontFamily: 'var(--font-modern)' }}
+              >SurfRider moves faster.</span>
             </h1>
-            <p className="mt-3 text-gray-400 text-base sm:text-lg max-w-xl">
+            <p className="mt-3 text-gray-400 text-base sm:text-lg max-w-xl" >
               Arming founders, investors, and builders with real-time, AI-curated <span
   className="underline decoration-dotted text-white cursor-help relative group"
 >
@@ -165,10 +167,12 @@ function classNames(...classes: string[]) {
         {/* Subscribe */}
         <section className="py-10 border-t border-zinc-700">
           <div className="mt-1 max-w-xl text-center lg:text-left mx-auto">
-            <h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer">
+            <h2 className="text-xl font-bold mb-2 text-white hover:underline cursor-pointer"   style={{ fontFamily: 'var(--font-modern)' }}
+            >
               <Link href="/subscribe">📬 Stay in the loop</Link>
             </h2>
-            <p className="text-sm text-gray-400 mb-4">Subscribe for top insights delivered daily.</p>
+            <p className="text-sm text-gray-400 mb-4"   style={{ fontFamily: 'var(--font-modern)' }}
+            >Subscribe for top insights delivered daily.</p>
             <form onSubmit={handleSubscribe} className="flex gap-3">
               <input
                 type="email"
@@ -306,21 +310,22 @@ function classNames(...classes: string[]) {
               key={insight.id}
               onClick={() => router.push(`/signal?id=${insight.id}`)}
               className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md hover:shadow-lg transition cursor-pointer group"
+              style={{ fontFamily: 'var(--font-modern)' }}
             >
               <h2 className="text-xl font-bold text-purple-200 mb-3 break-words">
-                🔍 {insight.signal} <span aria-hidden>↗</span>
+                 {insight.signal} <span aria-hidden>↗</span>
               </h2>
               <p className="text-sm text-zinc-400 mt-3 break-words">
-                <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
+                <strong className="text-white"> Why It Matters:</strong> {insight.why_it_matters}
               </p>
               <p className="text-sm text-zinc-400 mt-3 break-words">
-                <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
+                <strong className="text-white"> Action Angle:</strong> {insight.action_angle}
               </p>
               <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4 items-center">
                 <span className="neon-tag">{insight.sector}</span>
-                <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-                <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
-                <span className="neon-tag">💡 Novelty: {insight.novelty_score}</span>
+                <span className="neon-tag"> Tone: {insight.tone}</span>
+                <span className="neon-tag"> Urgency: {insight.urgency_score}</span>
+                <span className="neon-tag"> Novelty: {insight.novelty_score}</span>
                 <span className="neon-tag">{new Date(insight.created_at).toLocaleDateString()}</span>
                 {insight.post_id && (
                   <a
@@ -330,12 +335,12 @@ function classNames(...classes: string[]) {
                     className="blue-neon-tag hover:underline"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    🔗 Insight Origin
+                     Insight Origin
                   </a>
                 )}
                 <div onClick={(e) => e.stopPropagation()}>
                   <CopyButton
-                    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+                    text={` ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
                   />
                 </div>
                 <div className="flex justify-between items-start">

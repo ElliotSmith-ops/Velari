@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import CopyButton from '@/components/CopyButton'
+import ShareButton from '@/components/ShareButton'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
@@ -213,7 +214,8 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   </Link>
 
   {/* Right-side capsule */}
-  <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 px-4 py-1.5 rounded-full text-sm text-gray-300 shadow-sm">
+  <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 px-4 py-1.5 rounded-full text-sm text-gray-300 shadow-sm"   style={{ fontFamily: 'var(--font-modern)' }}
+  >
     <span>
       Credits: <span className="text-white font-medium">{credits}</span>
     </span>
@@ -334,6 +336,8 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
     type="submit"
     disabled={loading || !userId}
     className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl transition"
+    style={{ fontFamily: 'var(--font-modern)' }}
+
   >
     {loading ? 'Scanning...' : 'Scan Trends'}
   </button>
@@ -370,27 +374,29 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
       <div
         key={insight.id}
         className="p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600"
+        style={{ fontFamily: 'var(--font-modern)' }}
+
       >
         <div
           onClick={() => router.push(`/signal?id=${insight.id}`)}
           className="rounded-[14px] bg-black p-6 shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer group h-full"
         >
           <h2 className="text-base sm:text-lg md:text-xl font-bold text-purple-200 mb-3 break-words">
-            🔍 {insight.signal} <span aria-hidden>↗</span>
+             {insight.signal} <span aria-hidden>↗</span>
           </h2>
 
           <p className="text-sm text-zinc-400 mt-3 break-words">
-            <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
+            <strong className="text-white"> Why It Matters:</strong> {insight.why_it_matters}
           </p>
           <p className="text-sm text-zinc-400 mt-3 break-words">
-            <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
+            <strong className="text-white"> Action Angle:</strong> {insight.action_angle}
           </p>
 
           <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4 min-w-0 items-center">
             <span className="neon-tag">{insight.sector}</span>
-            <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-            <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
-            <span className="neon-tag">💡 Novelty: {insight.novelty_score}</span>
+            <span className="neon-tag"> Tone: {insight.tone}</span>
+            <span className="neon-tag"> Urgency: {insight.urgency_score}</span>
+            <span className="neon-tag"> Novelty: {insight.novelty_score}</span>
             <span className="neon-tag">{new Date(insight.created_at).toLocaleDateString()}</span>
             {insight.post_id && (
               <a
@@ -400,13 +406,15 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
                 className="blue-neon-tag hover:underline"
                 onClick={(e) => e.stopPropagation()}
               >
-                🔗 Insight Origin
+                 Insight Origin
               </a>
             )}
             <div onClick={(e) => e.stopPropagation()}>
               <CopyButton
-                text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+                text={` ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
               />
+              <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+
             </div>
           </div>
         </div>

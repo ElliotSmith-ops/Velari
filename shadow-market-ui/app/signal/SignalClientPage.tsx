@@ -80,24 +80,26 @@ export default function SignalClientPage() {
         </Link>
       </div>
 
-      <div className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden mb-10">
+      <div className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md overflow-hidden mb-10"
+        style={{ fontFamily: 'var(--font-modern)' }}
+>
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-200 mb-4 break-words">
           {insight.signal}
         </h1>
 
         <p className="text-sm text-zinc-400 mb-3">
-          <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
+          <strong className="text-white"> Why It Matters:</strong> {insight.why_it_matters}
         </p>
 
         <p className="text-sm text-zinc-400 mb-5">
-          <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
+          <strong className="text-white"> Action Angle:</strong> {insight.action_angle}
         </p>
 
         <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mb-6">
           <span className="neon-tag">{insight.sector}</span>
-          <span className="neon-tag">🎭 Tone: {insight.tone}</span>
-          <span className="neon-tag">🔥 Urgency: {insight.urgency_score}</span>
-          <span className="neon-tag">💡 Novelty: {insight.novelty_score}</span>
+          <span className="neon-tag"> Tone: {insight.tone}</span>
+          <span className="neon-tag"> Urgency: {insight.urgency_score}</span>
+          <span className="neon-tag"> Novelty: {insight.novelty_score}</span>
           <span className="neon-tag">
             {new Date(insight.created_at).toLocaleDateString()}
           </span>
@@ -108,7 +110,7 @@ export default function SignalClientPage() {
               rel="noopener noreferrer"
               className="blue-neon-tag hover:underline"
             >
-              🔗 Insight Origin
+               Insight Origin
             </a>
           )}
         </div>
@@ -124,7 +126,9 @@ export default function SignalClientPage() {
           <h2 className="text-lg text-purple-300 font-semibold mb-4">
             Related Signals
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2"
+            style={{ fontFamily: 'var(--font-modern)' }}
+>
             {related.map((item) => (
               <Link
                 key={item.id}
@@ -139,8 +143,8 @@ export default function SignalClientPage() {
                 </p>
                 <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500 mt-3">
                   <span className="neon-tag">{item.sector}</span>
-                  <span className="neon-tag">🔥 {item.urgency_score}</span>
-                  <span className="neon-tag">💡 {item.novelty_score}</span>
+                  <span className="neon-tag">Urgency: {item.urgency_score}</span>
+                  <span className="neon-tag">Novelty: {item.novelty_score}</span>
                 </div>
               </Link>
             ))}
