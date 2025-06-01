@@ -65,10 +65,12 @@ export default function MobileHomePage() {
       {/* CTA */}
       <a
   href="/m/pro"
-  className="w-full rounded-xl p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
+  className="w-full rounded-full p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
 >
-  <div className="w-full h-full bg-black rounded-xl text-center py-3 text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400">
-    Try SurfRider Pro
+  <div className="w-full h-full rounded-full bg-black py-3 text-center">
+    <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400">
+      Try SurfRider Pro
+    </span>
   </div>
 </a>
 
