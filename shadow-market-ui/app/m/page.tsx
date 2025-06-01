@@ -67,17 +67,29 @@ export default function MobileHomePage() {
       </div>
 
       {/* CTA */}
-      <a
-  href="/m/pro"
-  className="w-full rounded-full p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
->
-  <div className="w-full h-full rounded-full bg-black py-3 text-center">
-    <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400">
-      Try SurfRider Pro
-    </span>
+      <div className="relative w-full text-center">
+  <a
+    href="/m/pro"
+    className="relative inline-block text-lg font-bold py-3 px-4 rounded-xl bg-black text-transparent bg-clip-text"
+    style={{
+      backgroundImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    }}
+  >
+    <span className="relative z-10">Try SurfRider Pro</span>
+    <span
+      className="absolute inset-0 rounded-xl border-2 pointer-events-none"
+      style={{
+        borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+      }}
+    />
+  </a>
+
+  <div className="mt-1 -translate-y-1">
+    <p className="text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
   </div>
-</a>
-<p className="mt-0 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
+</div>
 
 
       {/* Search and Filters */}
