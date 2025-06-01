@@ -124,6 +124,16 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           <Image src="/surfrider-icon.png" alt="SurfRider" width={40} height={40} />
         </Link>
         <div className="text-xs text-gray-400">Credits: <span className="text-white">{credits}</span></div>
+        <button
+  onClick={async () => {
+    await supabase.auth.signOut()
+    localStorage.removeItem('fake_user')
+    window.location.href = '/'
+  }}
+  className="text-xs text-red-400 hover:text-white transition"
+>
+  Sign Out
+</button>
       </div>
 
       {/* Welcome + Query Form */}
