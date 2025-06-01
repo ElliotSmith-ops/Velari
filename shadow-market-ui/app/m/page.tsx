@@ -8,6 +8,8 @@ import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
 import ShareButton from '@/components/ShareButton'
+import { FiExternalLink, FiCopy, FiShare2 } from 'react-icons/fi'
+
 
 export default function MobileHomePage() {
   const [insights, setInsights] = useState<any[]>([])
@@ -148,28 +150,39 @@ export default function MobileHomePage() {
               </>
             )}
 
-<div className="flex gap-2 mt-4 justify-between items-center flex-wrap">
+<div className="flex gap-4 mt-4 items-center text-xl text-zinc-400">
   {insight.post_id && (
     <a
       href={insight.post_id}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm text-blue-300 border border-blue-500 shadow-sm transition"
+      title="View source"
+      className="hover:text-blue-400 transition"
     >
-      🔗 Insight Origin
+      <FiExternalLink size={20} />
     </a>
   )}
 
-  <CopyButton
-    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
-    className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm text-white border border-zinc-600 shadow-sm transition"
-  />
+  <button
+    onClick={(e) => {
+      e.stopPropagation()
+      navigator.clipboard.writeText(
+        `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`
+      )
+    }}
+    title="Copy insight"
+    className="hover:text-blue-400 transition"
+  >
+    <FiCopy size={20} />
+  </button>
 
   <ShareButton
     insight={{ id: insight.id, signal: insight.signal }}
-    className="text-zinc-300 hover:text-white text-lg"
-  />
+    className="hover:text-blue-400 transition"
+  >
+    <FiShare2 size={20} />
+  </ShareButton>
 </div>
           </div>
         ))}
