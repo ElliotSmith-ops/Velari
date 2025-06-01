@@ -6,11 +6,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
+import CopyButton from '@/components/CopyButton'
+import ShareButton from '@/components/ShareButton'
 
 export default function MobileHomePage() {
   const [insights, setInsights] = useState<any[]>([])
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('')
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   useEffect(() => {
     const fetchInsights = async () => {
@@ -54,9 +57,13 @@ export default function MobileHomePage() {
       </div>
 
       {/* CTA */}
-      <Button asChild className="w-full bg-purple-600 text-white text-lg py-3 rounded-xl">
-        <a href="/m/pro">Try SurfRider Pro</a>
-      </Button>
+      <a
+        href="/m/pro"
+        className="w-full border-2 bg-black border-gradient-to-r from-pink-500 via-yellow-500 to-green-500 text-transparent bg-clip-text text-lg font-bold text-center py-3 rounded-xl"
+        style={{ borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1' }}
+      >
+        Try SurfRider Pro
+      </a>
 
       {/* Search and Filter */}
       <div className="flex flex-col gap-2">
@@ -81,12 +88,37 @@ export default function MobileHomePage() {
       {/* Feed */}
       <div className="flex flex-col gap-4">
         {filteredInsights.map((insight, i) => (
-          <div key={i} className="bg-zinc-800 rounded-xl p-4 shadow">
-            <p className="font-semibold text-lg">{insight.signal}</p>
-            <p className="text-sm text-gray-400 mt-1">{insight.why}</p>
-            <p className="text-xs mt-2 text-gray-500 italic">
-              Tone: {insight.tone} | Urgency: {insight.urgency} | Novelty: {insight.novelty}
-            </p>
+          <div
+            key={i}
+            className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800"
+            onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+          >
+            <p className="font-semibold text-lg text-white">{insight.signal}</p>
+
+            {expandedIndex === i && (
+              <>
+                <p className="text-sm text-gray-400 mt-2">{insight.why}</p>
+                <p className="text-sm text-purple-400 mt-1 italic">Action: {insight.action}</p>
+              </>
+            )}
+
+            <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
+              <p className="italic">
+                Tone: {insight.tone} | Urgency: {insight.urgency} | Novelty: {insight.novelty}
+              </p>
+              <div className="flex gap-2">
+                <a
+                  href={insight.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-blue-400"
+                >
+                  Origin
+                </a>
+                <CopyButton text={insight.signal} />
+                <ShareButton text={insight.signal} />
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -108,4 +140,4 @@ export default function MobileHomePage() {
       </nav>
     </main>
   )
-}  
+}
