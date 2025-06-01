@@ -201,7 +201,11 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           {results.map((insight , i) => (
           <div
           key={i}
-          className="border-2 border-purple-600 rounded-xl p-4 shadow bg-zinc-800 relative"
+          className="border-2 rounded-xl p-4 shadow bg-zinc-800 relative"
+          style={{
+            borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+            borderImageSlice: 1
+          }}
           onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
         >
           <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand</div>
