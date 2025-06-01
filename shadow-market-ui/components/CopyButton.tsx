@@ -4,9 +4,10 @@ import { useState } from 'react'
 
 type Props = {
   text: string
+  className?: string
 }
 
-export default function CopyButton({ text }: Props) {
+export default function CopyButton({ text, className = '' }: Props) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -22,12 +23,10 @@ export default function CopyButton({ text }: Props) {
   return (
     <button
       onClick={handleCopy}
-      className="blue-neon-tag text-blue-400 border-blue-400 hover:bg-blue-500/10 transition w-full sm:w-auto group"
+      className={`blue-neon-tag text-blue-400 border-blue-400 hover:bg-blue-500/10 transition w-full sm:w-auto group ${className}`}
     >
       {copied ? '✅ Copied!' : (
-        <>
-         <span className="group-hover:underline">📋 Copy</span>
-        </>
+        <span className="group-hover:underline">📋 Copy</span>
       )}
     </button>
   )
