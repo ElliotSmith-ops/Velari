@@ -65,10 +65,13 @@ export default function MobileHomePage() {
       {/* CTA */}
       <a
   href="/m/pro"
-  className="relative w-full py-3 text-lg font-bold text-center rounded-xl bg-black overflow-hidden group"
+  className="relative w-full py-3 px-4 text-lg font-bold text-center rounded-xl bg-black border-2 border-transparent"
+  style={{
+    borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+  }}
 >
   <span
-    className="relative z-10 bg-clip-text text-transparent"
+    className="block bg-clip-text text-transparent"
     style={{
       backgroundImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e)',
       WebkitBackgroundClip: 'text',
@@ -77,12 +80,6 @@ export default function MobileHomePage() {
   >
     Try SurfRider Pro
   </span>
-  <span
-    className="absolute inset-0 rounded-xl pointer-events-none border-2"
-    style={{
-      borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
-    }}
-  />
 </a>
 
       {/* Search and Filters */}
