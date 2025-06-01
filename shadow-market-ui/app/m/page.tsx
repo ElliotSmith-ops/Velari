@@ -116,7 +116,7 @@ export default function MobileHomePage() {
                   Origin
                 </a>
                 <CopyButton text={insight.signal} />
-                <ShareButton text={insight.signal} />
+                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
               </div>
             </div>
           </div>
