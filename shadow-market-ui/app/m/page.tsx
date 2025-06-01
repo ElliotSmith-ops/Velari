@@ -67,7 +67,6 @@ export default function MobileHomePage() {
       </div>
 
       {/* CTA */}
-      <div className="relative w-full text-center">
       <a
   href="/m/pro"
   className="w-full rounded-full p-[2px] bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
@@ -78,10 +77,6 @@ export default function MobileHomePage() {
     </span>
   </div>
 </a>
-<div className="mt-1 -translate-y-1">
-    <p className="text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
-  </div>
-</div>
 
 
       {/* Search and Filters */}
