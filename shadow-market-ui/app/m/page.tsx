@@ -22,6 +22,7 @@ export default function MobileHomePage() {
       let query = supabase
         .from('insights')
         .select('*')
+        .is('custom_query', null) // only return insights where custom_query is null
         .order(sortField, { ascending: false })
 
       if (sector) query = query.eq('sector', sector)
@@ -147,25 +148,29 @@ export default function MobileHomePage() {
               </>
             )}
 
-            <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
-              <div className="flex gap-2 items-center">
-                {insight.post_id && (
-                  <a
-                    href={insight.post_id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="blue-neon-tag hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Insight Origin
-                  </a>
-                )}
-                <CopyButton
-                  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
-                />
-                <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
-              </div>
-            </div>
+<div className="flex gap-2 mt-4 justify-between items-center flex-wrap">
+  {insight.post_id && (
+    <a
+      href={insight.post_id}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm text-blue-300 border border-blue-500 shadow-sm transition"
+    >
+      🔗 Insight Origin
+    </a>
+  )}
+
+  <CopyButton
+    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+    className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm text-white border border-zinc-600 shadow-sm transition"
+  />
+
+  <ShareButton
+    insight={{ id: insight.id, signal: insight.signal }}
+    className="text-zinc-300 hover:text-white text-lg"
+  />
+</div>
           </div>
         ))}
       </div>
