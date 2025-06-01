@@ -101,7 +101,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
 
       if (res.ok) {
         const { subreddits } = data
-        setScrapingMessage(`Scraping: ${subreddits.join(', ')}`)
+        setScrapingMessage(`🔍 Scouring the internet for: ${subreddits.join(', ')}. Results are generated live and can take 1-2 minutes.`)
         await fetch('/api/scrape-subreddits', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -229,6 +229,40 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
         <p className="text-sm text-zinc-400">Search anything. We’ll find your next million dollar idea.</p>
       </div>
 
+      {showNoCreditsModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 shadow-xl">
+      <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-center text-white font-neon">
+        <h2 className="text-2xl font-bold mb-2">Out of Credits 🏄</h2>
+        <p className="text-gray-400 mb-6 text-sm">
+          You’ve used all your Pro searches.<br />Recharge to keep surfing the signal.
+        </p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => setShowNoCreditsModal(false)}
+            className="px-4 py-2 rounded-xl border border-purple-500 text-sm text-purple-300 hover:bg-zinc-800 transition shadow"
+          >
+            Maybe Later
+          </button>
+          <button
+            onClick={() => {
+              setShowNoCreditsModal(false)
+              setShowCreditOptions(true)
+            }}
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 via-blue-500 to-purple-600 hover:brightness-110 transition text-sm font-semibold text-white shadow-lg"
+            style={{
+              textShadow: '0px 1px 2px rgba(0,0,0,0.7)',
+              backgroundClip: 'padding-box'
+            }}
+          >
+            Buy Credits
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -313,7 +347,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
               )}
         
               <CopyButton
-                text={`🔍 ${insight.signal}\n\n Why It Matters: ${insight.why_it_matters}\n\n Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
+                text={`${insight.signal}\n\n Why It Matters: ${insight.why_it_matters}\n\n Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
               />
         
               <ShareButton insight={{ id: insight.id, signal: insight.signal }} />

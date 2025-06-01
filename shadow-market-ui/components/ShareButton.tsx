@@ -21,7 +21,7 @@ export default function ShareButton({ insight, className = '' }: ShareButtonProp
         }}
         className={`text-zinc-400 hover:text-white transition cursor-pointer ${className}`}
       >
-        <Share2 size={16} />
+        <Share2 size={24} />
       </button>
 
       <ShareModal
