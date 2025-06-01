@@ -75,6 +75,7 @@ export default function MobileHomePage() {
     <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400">
       Try SurfRider Pro
     </span>
+    <p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
   </div>
 </a>
 
@@ -166,7 +167,7 @@ export default function MobileHomePage() {
   )}
 
   <CopyButton
-    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+    text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://surfrider.io/signal/${insight.id}`}
   />
 
   <ShareButton
