@@ -125,18 +125,19 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   return (
     <div className="p-4 text-white max-w-md mx-auto">
       {/* Logo & Credit Bar */}
-      <div className="flex items-center justify-between mb-6 px-3 py-2 rounded-xl border border-zinc-700 bg-zinc-950 shadow-md">
-  <Link href="/" className="w-10">
-    <Image src="/surfrider-icon.png" alt="SurfRider" width={40} height={40} />
+      <div className="flex items-center justify-between mb-6 px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-2xl shadow-lg">
+  <Link href="/" className="flex items-center gap-2">
+    <Image src="/surfrider-icon.png" alt="SurfRider" width={36} height={36} className="rounded-md" />
+    <span className="text-sm font-semibold text-white tracking-tight">SurfRider Pro</span>
   </Link>
-  <div className="text-right text-xs text-zinc-400 space-y-1">
-    <div className="text-white font-medium">Credits: {credits}</div>
-    <div className="flex gap-2 justify-end">
+  <div className="text-right text-xs">
+    <div className="text-green-400 font-semibold">Credits: {credits}</div>
+    <div className="flex gap-2 mt-1">
       <button
-        onClick={() => toast('🛒 Not implemented yet')}
-        className="underline text-blue-400 hover:text-white"
+        onClick={() => toast('🛒 Buy Credits coming soon!')}
+        className="text-blue-400 hover:text-white underline transition"
       >
-        Buy Credits
+        Buy
       </button>
       <button
         onClick={async () => {
@@ -144,7 +145,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           localStorage.removeItem('fake_user')
           window.location.href = '/'
         }}
-        className="text-red-400 hover:text-white"
+        className="text-red-400 hover:text-white underline transition"
       >
         Sign Out
       </button>
