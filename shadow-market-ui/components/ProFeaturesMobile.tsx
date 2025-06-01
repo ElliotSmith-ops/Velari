@@ -132,7 +132,7 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   </Link>
 
   {/* Right: Capsule */}
-  <div className="flex items-center gap-3 px-4 py-2 border border-zinc-700 rounded-full text-xs text-gray-200 bg-zinc-900 shadow-sm">
+  <div className="flex items-center gap-1 px-2 py-2 border border-zinc-700 rounded-full text-xs text-gray-200 bg-zinc-900 shadow-sm">
     <span>
       <span className="text-white font-semibold">Credits:</span>{' '}
       <span className="text-white">{credits}</span>
