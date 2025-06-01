@@ -119,16 +119,16 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   return (
     <div className="p-4 text-white max-w-md mx-auto">
       {/* Logo & Credit Bar */}
-      <div className="flex justify-between items-center mb-6">
-        <Link href="/" className="w-10">
-          <Image src="/surfrider-icon.png" alt="SurfRider" width={40} height={40} />
-        </Link>
-        <div className="flex flex-col items-end text-xs text-right gap-1">
-    <span className="text-gray-400">Credits: <span className="text-white">{credits}</span></span>
-    <div className="flex gap-2">
+      <div className="flex items-center justify-between mb-6 px-3 py-2 rounded-xl border border-zinc-700 bg-zinc-950 shadow-md">
+  <Link href="/" className="w-10">
+    <Image src="/surfrider-icon.png" alt="SurfRider" width={40} height={40} />
+  </Link>
+  <div className="text-right text-xs text-zinc-400 space-y-1">
+    <div className="text-white font-medium">Credits: {credits}</div>
+    <div className="flex gap-2 justify-end">
       <button
         onClick={() => toast('🛒 Not implemented yet')}
-        className="text-blue-400 hover:text-white transition underline"
+        className="underline text-blue-400 hover:text-white"
       >
         Buy Credits
       </button>
@@ -138,13 +138,13 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
           localStorage.removeItem('fake_user')
           window.location.href = '/'
         }}
-        className="text-red-400 hover:text-white transition"
+        className="text-red-400 hover:text-white"
       >
         Sign Out
       </button>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 
       {/* Welcome + Query Form */}
       <div className="text-center mb-6">
@@ -194,26 +194,47 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
         <div className="mt-6 space-y-4">
           {results.map((insight) => (
             <div
-              key={insight.id}
-              onClick={() => router.push(`/signal?id=${insight.id}`)}
-              className="p-4 rounded-xl bg-zinc-900 border border-zinc-700 shadow hover:shadow-lg transition cursor-pointer"
-            >
-              <h3 className="font-semibold text-purple-300 text-sm mb-2">🔍 {insight.signal}</h3>
-              <p className="text-xs text-gray-300">
-                <strong>🧨 Why It Matters:</strong> {insight.why_it_matters}
-              </p>
-              <p className="text-xs text-gray-300 mt-1">
-                <strong>🛠 Action Angle:</strong> {insight.action_angle}
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1 text-[10px] text-zinc-400">
-                <span>{insight.sector}</span>
-                <span>🔥 {insight.urgency_score}</span>
-                <span>💡 {insight.novelty_score}</span>
-                <CopyButton
-                  text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
-                />
-              </div>
+            key={insight.id}
+            onClick={() => router.push(`/signal?id=${insight.id}`)}
+            className="rounded-xl p-4 shadow bg-zinc-900 relative border-2"
+            style={{
+              borderImage: 'linear-gradient(to right, #ec4899, #facc15, #22c55e) 1',
+              borderImageSlice: 1
+            }}
+          >
+            <div className="absolute top-2 right-2 text-xs text-purple-400 animate-pulse">Tap to expand ⬇</div>
+            <p className="font-semibold text-lg text-white whitespace-pre-wrap">{insight.signal}</p>
+            <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-2">
+              <span>🏷 {insight.sector}</span>
+              <span>🔥 {insight.urgency_score}</span>
+              <span>💡 {insight.novelty_score}</span>
             </div>
+          
+            <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap">
+              <strong className="text-white">🧨 Why It Matters:</strong> {insight.why_it_matters}
+            </p>
+            <p className="text-sm text-purple-400 mt-1 italic whitespace-pre-wrap">
+              <strong className="text-white">🛠 Action Angle:</strong> {insight.action_angle}
+            </p>
+          
+            <div className="flex gap-4 mt-3 items-center text-xs text-zinc-400">
+              {insight.post_id && (
+                <a
+                  href={insight.post_id}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Origin
+                </a>
+              )}
+              <CopyButton
+                text={`🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal/${insight.id}`}
+              />
+              <ShareButton insight={{ id: insight.id, signal: insight.signal }} />
+            </div>
+          </div>
           ))}
         </div>
       )}
