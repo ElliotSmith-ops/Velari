@@ -76,9 +76,9 @@ export default function MobileHomePage() {
       Try SurfRider Pro
     </span>
   </div>
-  <p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
-
 </a>
+<p className="mt-1 text-sm text-gray-400">Custom trend discovery & early signal alerts</p>
+
 
       {/* Search and Filters */}
       <div className="flex flex-col gap-2">
