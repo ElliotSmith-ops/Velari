@@ -8,7 +8,6 @@ import Image from 'next/image'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
-
 const PRICE_OPTIONS = [
   {
     label: 'Starter Pack – 10 credits',
@@ -116,82 +115,88 @@ export default function AccountPage() {
   }
 
   return (
-<main className="min-h-screen bg-zinc-950 text-white px-6 py-10 max-w-md mx-auto">
-  <div className="flex justify-between items-center mb-10">
-    <Link href="/pro">
-      <Image
-        src="/surfriderpro-icon.png"
-        alt="SurfRider"
-        width={40}
-        height={40}
-        className="cursor-pointer hover:scale-105 transition-transform"
-      />
-    </Link>
-    <div className="bg-zinc-800 px-4 py-1.5 rounded-full text-sm text-zinc-300 shadow-inner">
-      <span className="mr-1">Credits:</span>
-      <span className="text-green-400 font-semibold">{credits}</span>
-    </div>
-  </div>
+    <main className="min-h-screen bg-zinc-950 text-white px-6 py-10">
+      <div className="max-w-md mx-auto sm:max-w-2xl sm:px-10">
 
-  <div className="text-center mb-8">
-    <h2 className="text-lg text-zinc-400 font-medium mb-1">User:</h2>
-    <p className="text-xl text-white font-semibold tracking-wide">{username}</p>
-  </div>
-
-  <div className="space-y-4">
-  <button
-  onClick={() => setShowCreditOptions(true)}
-  className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-500/90 to-blue-600/90 text-white border border-white/10 hover:brightness-110 transition shadow"
->
-  Buy Credits
-</button>
-
-    <button
-      onClick={handleSignOut}
-      className="w-full py-3 text-sm font-semibold rounded-xl bg-zinc-800 text-white border border-zinc-700 hover:bg-zinc-700 transition"
-    >
-      Sign Out
-    </button>
-
-    <button
-      onClick={handleDeleteAccount}
-      className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-rose-400/80 to-rose-500/80 text-white hover:brightness-110 transition shadow"
-    >
-      Delete Account
-    </button>
-  </div>
-  {showCreditOptions && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 to-purple-600 shadow-xl">
-            <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-white text-center">
-              <h2 className="text-2xl font-bold mb-4">Choose Your Pack 🏄</h2>
-              <div className="space-y-3">
-                {PRICE_OPTIONS.filter((opt) => opt.priceId).map((opt) => (
-                  <button
-                    key={opt.label}
-                    onClick={() => {
-                      setShowCreditOptions(false)
-                      handleBuyCredits(opt.priceId!)
-                    }}
-                    className="w-full px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 hover:brightness-110 transition text-sm font-semibold text-white shadow"
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setShowCreditOptions(false)}
-                className="mt-6 text-purple-300 text-sm underline hover:text-white"
-              >
-                Nevermind
-              </button>
-            </div>
+        {/* Logo & Credits */}
+        <div className="flex justify-between items-center mb-10">
+          <Link href="/pro">
+            <Image
+              src="/surfriderpro-icon.png"
+              alt="SurfRider"
+              width={40}
+              height={40}
+              className="cursor-pointer hover:scale-105 transition-transform"
+            />
+          </Link>
+          <div className="bg-zinc-800 px-4 py-1.5 rounded-full text-sm text-zinc-300 shadow-inner sm:px-6 sm:py-2 sm:text-base">
+            <span className="mr-1">Credits:</span>
+            <span className="text-green-400 font-semibold">{credits}</span>
           </div>
         </div>
-      )}
-</main>
 
+        {/* Username */}
+        <div className="text-center mb-8">
+          <h2 className="text-lg text-zinc-400 font-medium mb-1 sm:text-xl">User:</h2>
+          <p className="text-xl text-white font-semibold tracking-wide sm:text-2xl">{username}</p>
+        </div>
 
+        {/* Action Buttons */}
+        <div className="space-y-4 sm:space-y-5 sm:mt-10">
+          <button
+            onClick={() => setShowCreditOptions(true)}
+            className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-500/90 to-blue-600/90 text-white border border-white/10 hover:brightness-110 transition shadow"
+          >
+            Buy Credits
+          </button>
 
-    )
+          <button
+            onClick={handleSignOut}
+            className="w-full py-3 text-sm font-semibold rounded-xl bg-zinc-800 text-white border border-zinc-700 hover:bg-zinc-700 transition"
+          >
+            Sign Out
+          </button>
+
+          <button
+            onClick={handleDeleteAccount}
+            className="w-full py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-rose-400/80 to-rose-500/80 text-white hover:brightness-110 transition shadow"
+          >
+            Delete Account
+          </button>
+        </div>
+
+        {/* Credit Options Modal */}
+        {showCreditOptions && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+            <div className="p-[2px] rounded-2xl bg-gradient-to-r from-pink-500 via-yellow-400 via-green-400 to-purple-600 shadow-xl">
+              <div className="rounded-[14px] bg-zinc-900 px-8 py-6 text-white text-center">
+                <h2 className="text-2xl font-bold mb-4">Choose Your Pack 🏄</h2>
+                <div className="space-y-3">
+                  {PRICE_OPTIONS.filter((opt) => opt.priceId).map((opt) => (
+                    <button
+                      key={opt.label}
+                      onClick={() => {
+                        setShowCreditOptions(false)
+                        handleBuyCredits(opt.priceId!)
+                      }}
+                      className="w-full px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 hover:brightness-110 transition text-sm font-semibold text-white shadow"
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setShowCreditOptions(false)}
+                  className="mt-6 text-purple-300 text-sm underline hover:text-white"
+                >
+                  Nevermind
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </main>
+  )
 }
