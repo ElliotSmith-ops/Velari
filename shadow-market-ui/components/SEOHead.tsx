@@ -34,6 +34,21 @@ export default function SEOHead({ title, description, keywords, image, url }: Pr
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      
+    {/* Google Analytics */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG" />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MWV2EHMNBG', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
     </Head>
   )
 }

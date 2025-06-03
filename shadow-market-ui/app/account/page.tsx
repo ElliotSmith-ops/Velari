@@ -115,15 +115,6 @@ export default function AccountPage() {
   }
 
   return (
-    <>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MWV2EHMNBG');
-</script>
     <main className="min-h-screen bg-zinc-950 text-white px-6 py-10">
       <div className="max-w-md mx-auto sm:max-w-2xl sm:px-10">
 
@@ -207,6 +198,5 @@ export default function AccountPage() {
 
       </div>
     </main>
-    </>
   )
 }
