@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import ShareButton from '@/components/ShareButton'
 import { useMemo } from 'react'
 import Head from 'next/head'
-import SeoHead from '@/components/SeoHead'
+import SEOHead from '@/components/SEOHead'
 
 
 
