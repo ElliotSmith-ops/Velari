@@ -35,7 +35,7 @@ const PRICE_OPTIONS = [
     }
   ]
 
-export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
+export default function ProFeaturesMobile () {
   const [username, setUsername] = useState<string | null>(null)
   const [credits, setCredits] = useState<number | null>(null)
   const [query, setQuery] = useState('')
@@ -48,38 +48,37 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
   const [showNoCreditsModal, setShowNoCreditsModal] = useState(false)
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const [showCreditOptions, setShowCreditOptions] = useState(false)
+  const [userId, setUserId] = useState<string | null>(null)
 
 
   const router = useRouter()
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const { data, error } = await supabase
+    const loadUser = async () => {
+      const { data: sessionData } = await supabase.auth.getSession()
+      const user = sessionData?.session?.user
+  
+      if (!user) {
+        router.push('/')
+        return
+      }
+  
+      setUserId(user.id)
+  
+      const { data: profile, error } = await supabase
         .from('users')
         .select('username, credits')
-        .eq('id', userId)
+        .eq('id', user.id)
         .single()
-      if (!error && data) {
-        setUsername(data.username)
-        setCredits(data.credits)
+  
+      if (!error && profile) {
+        setUsername(profile.username)
+        setCredits(profile.credits)
       }
     }
-
-    const fetchUserQueries = async () => {
-      const { data, error } = await supabase
-        .from('insights')
-        .select('custom_query')
-        .eq('custom_user_id', userId)
-
-      if (!error && data) {
-        const uniqueQueries = [...new Set(data.map((d: any) => d.custom_query))]
-        setUserQueries(uniqueQueries)
-      }
-    }
-
-    fetchUserData()
-    fetchUserQueries()
-  }, [userId])
+  
+    loadUser()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

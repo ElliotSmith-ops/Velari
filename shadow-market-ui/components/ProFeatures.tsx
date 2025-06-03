@@ -11,9 +11,6 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 
 
-type ProFeaturesProps = {
-  userId: string
-}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,7 +33,7 @@ const PRICE_OPTIONS = [
 ]
 
 
-export default function ProFeatures({ userId }: ProFeaturesProps) {
+export default function ProFeatures() {
   const [username, setUsername] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
@@ -48,7 +45,7 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const [scrapingMessage, setScrapingMessage] = useState<string | null>(null)
   const [showNoCreditsModal, setShowNoCreditsModal] = useState(false)
   const [showCreditOptions, setShowCreditOptions] = useState(false)
-
+  const [userId, setUserId] = useState<string | null>(null)
 
 
 
@@ -56,24 +53,34 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
   const router = useRouter()
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!userId) return
-      const { data, error } = await supabase
+    const loadUser = async () => {
+      const { data: sessionData } = await supabase.auth.getSession()
+      const user = sessionData?.session?.user
+
+      if (!user) {
+        router.push('/')
+        return
+      }
+
+      setUserId(user.id)
+
+      const { data: profile, error } = await supabase
         .from('users')
         .select('username, credits')
-        .eq('id', userId)
+        .eq('id', user.id)
         .single()
-  
-      if (error) {
-        console.error('Error fetching user data:', error)
+
+      if (profile) {
+        setUsername(profile.username)
+        setCredits(profile.credits)
       } else {
-        setUsername(data.username)
-        setCredits(data.credits)
+        toast.error('Could not load profile')
+        router.push('/')
       }
     }
-  
-    fetchUserData()
-  }, [userId])
+
+    loadUser()
+  }, [])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut() // kill session
