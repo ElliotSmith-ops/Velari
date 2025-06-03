@@ -7,6 +7,8 @@ import CopyButton from '@/components/CopyButton'
 import Link from 'next/link'
 import Image from 'next/image'
 import ShareButton from '@/components/ShareButton'
+import SEOHead from '@/components/SEOHead'
+
 
 
 export default function SignalClientPage() {
@@ -60,10 +62,19 @@ export default function SignalClientPage() {
   if (!insight) {
     return <main className="min-h-screen text-white p-10">❌ Signal not found.</main>
   }
+  
+
 
   const copyText = `🔍 ${insight.signal}\n\n🧨 Why It Matters: ${insight.why_it_matters}\n\n🛠 Action Angle: ${insight.action_angle}\n\nhttps://occulta.ai/signal?id=${id}`
 
   return (
+    <>
+    <SEOHead
+      title={`"${insight.signal}" – Startup Signal | SurfRider`}
+      description={`Why it matters: ${insight.why_it_matters} | Action: ${insight.action_angle}`}
+      keywords={`startup ideas, ${insight.sector}, ${insight.tone}, SurfRider insight, urgency ${insight.urgency_score}, novelty ${insight.novelty_score}, ${insight.signal}`}
+      url={`https://surfrider.io/signal?id=${insight.id}`}
+    />
     <main className="min-h-screen max-w-3xl mx-auto w-full px-4 sm:px-6 text-white py-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-3 sm:gap-0">
         <Link href="/" className="flex items-center space-x-3">
@@ -152,5 +163,6 @@ export default function SignalClientPage() {
         </div>
       )}
     </main>
+    </>
   )
 }

@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import SignalClientPage from './SignalClientPage'
+import SEOHead from '@/components/SEOHead'
+
 
 export default function SignalPage() {
   return (

@@ -10,6 +10,9 @@ import SubscribeForm from '@/components/SubscribeForm'
 import { Button } from '@/components/ui/button'
 import ShareButton from '@/components/ShareButton'
 import { useMemo } from 'react'
+import Head from 'next/head'
+import SeoHead from '@/components/SeoHead'
+
 
 
 
@@ -115,6 +118,13 @@ function classNames(...classes: string[]) {
 
   return (
     <>
+<SEOHead
+  title="SurfRider – AI Startup Idea Generator"
+  description="Discover high-potential startup ideas using AI-curated insights from the internet. SurfRider helps founders move faster by identifying emerging market signals."
+  keywords="AI startup ideas, Reddit trend analysis, discover startup ideas, founder tools, market demand signals, product validation AI"
+  url="https://surfrider.io"
+  image="https://surfrider.io/og.png"
+/>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800" />
       <main className="min-h-screen max-w-6xl mx-auto w-full px-4 sm:px-6 text-white">
 

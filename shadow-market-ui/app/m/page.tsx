@@ -10,6 +10,7 @@ import CopyButton from '@/components/CopyButton'
 import ShareButton from '@/components/ShareButton'
 import { FiExternalLink, FiCopy, FiShare2 } from 'react-icons/fi'
 import { ClipboardCopy, ExternalLink, Share2 } from 'lucide-react'
+import SEOHead from '@/components/SEOHead'
 
 
 export default function MobileHomePage() {
@@ -49,6 +50,14 @@ export default function MobileHomePage() {
   })
 
   return (
+    <>
+    <SEOHead
+        title="SurfRider – AI Startup Idea Generator"
+        description="Discover high-potential startup ideas using AI-curated insights from the internet. SurfRider helps founders move faster by identifying emerging market signals."
+        keywords="AI startup ideas, Reddit trend analysis, discover startup ideas, founder tools, market demand signals, product validation AI"
+        url="https://surfrider.io/m"
+        image="https://surfrider.io/og.png"
+    />
     <main className="bg-zinc-900 min-h-screen text-white pb-20 px-4 py-6 flex flex-col gap-6">
       {/* Logo */}
       <div className="flex justify-center">
@@ -198,5 +207,6 @@ export default function MobileHomePage() {
         </Link>
       </nav>
     </main>
+    </>
   )
 }
