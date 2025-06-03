@@ -47,6 +47,14 @@ useEffect(() => {
   }
 }, [])
 
+
+useEffect(() => {
+  const savedY = sessionStorage.getItem('scroll-position')
+  if (savedY) {
+    window.scrollTo({ top: parseInt(savedY), behavior: 'auto' })
+  }
+}, [])
+
 const sortOptions = [
   { label: 'Default', value: 'interesting_score' },
   { label: 'Urgency', value: 'urgency_score' },
@@ -152,7 +160,8 @@ function classNames(...classes: string[]) {
   </div>
 </Link>
 <button
-  onClick={() => router.push('/pro')}
+  onClick={() => {   sessionStorage.setItem('scroll-position', window.scrollY.toString())
+     router.push('/pro')}}
   className="cursor-pointer bg-black px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all"
 >
   <span className="bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: 'Klavika, sans-serif' }}>
@@ -308,7 +317,8 @@ function classNames(...classes: string[]) {
           {insights.map((insight) => (
             <div
               key={insight.id}
-              onClick={() => router.push(`/signal?id=${insight.id}`)}
+              onClick={() => {  sessionStorage.setItem('scroll-position', window.scrollY.toString())
+                router.push(`/signal?id=${insight.id}`)}}
               className="w-full rounded-xl border border-purple-500 bg-zinc-900/80 p-6 shadow-md hover:shadow-lg transition cursor-pointer group"
               style={{ fontFamily: 'var(--font-modern)' }}
             >

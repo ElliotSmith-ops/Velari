@@ -55,7 +55,7 @@ export async function GET() {
   for (const { email } of subscribers) {
     console.log('Sending to:', email)
     await resend.emails.send({
-      from: 'SurfRider <dailydrop@occulta.ai>',
+      from: 'SurfRider <dailydrop@surfrider.io>',
       to: email,
       subject: '🧠 SurfRider Daily Trend Drop',
       html

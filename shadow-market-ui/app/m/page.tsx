@@ -20,6 +20,8 @@ export default function MobileHomePage() {
   const [sector, setSector] = useState('')
   const [sortField, setSortField] = useState('interesting_score')
 
+  
+
   useEffect(() => {
     const fetchInsights = async () => {
       let query = supabase
