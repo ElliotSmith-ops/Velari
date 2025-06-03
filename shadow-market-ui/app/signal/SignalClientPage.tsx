@@ -75,6 +75,14 @@ export default function SignalClientPage() {
       keywords={`startup ideas, ${insight.sector}, ${insight.tone}, SurfRider insight, urgency ${insight.urgency_score}, novelty ${insight.novelty_score}, ${insight.signal}`}
       url={`https://surfrider.io/signal?id=${insight.id}`}
     />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MWV2EHMNBG');
+</script>
     <main className="min-h-screen max-w-3xl mx-auto w-full px-4 sm:px-6 text-white py-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-3 sm:gap-0">
         <Link href="/" className="flex items-center space-x-3">

@@ -58,6 +58,14 @@ export default function MobileHomePage() {
         url="https://surfrider.io/m"
         image="https://surfrider.io/og.png"
     />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MWV2EHMNBG');
+</script>
     <main className="bg-zinc-900 min-h-screen text-white pb-20 px-4 py-6 flex flex-col gap-6">
       {/* Logo */}
       <div className="flex justify-center">

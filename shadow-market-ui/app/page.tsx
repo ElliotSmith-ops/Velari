@@ -125,6 +125,14 @@ function classNames(...classes: string[]) {
   url="https://surfrider.io"
   image="https://surfrider.io/og.png"
 />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MWV2EHMNBG');
+</script>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800" />
       <main className="min-h-screen max-w-6xl mx-auto w-full px-4 sm:px-6 text-white">
 

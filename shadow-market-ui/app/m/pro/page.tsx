@@ -38,6 +38,14 @@ export default function ProMobilePage() {
         url="https://surfrider.io/m/pro"
         image="https://surfrider.io/og.png"
     />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MWV2EHMNBG');
+</script>
     <main className="min-h-screen px-4 text-white bg-zinc-900 pb-20">
       {signedIn ? <ProFeaturesMobile /> : <SignInSignUpMobile />}
     </main>

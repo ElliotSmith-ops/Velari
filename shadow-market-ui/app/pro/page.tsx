@@ -44,6 +44,14 @@ export default function ProPage() {
         url="https://surfrider.io/pro"
         image="https://surfrider.io/og.png"
       />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MWV2EHMNBG');
+</script>
       <main className="min-h-screen px-4 sm:px-6 max-w-6xl mx-auto text-white">
         {userId ? <ProFeatures /> : <SignInSignUp />}
       </main>
