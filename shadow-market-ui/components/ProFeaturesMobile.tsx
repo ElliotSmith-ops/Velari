@@ -175,14 +175,12 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
 >
   Purchase Credits
 </button>
-    <button
-      onClick={async () => {
-        window.location.href = '/account'
-      }}
-      className="hover:text-white transition"
+    <span
+        onClick={() => router.push('/account')}
+        className="cursor-pointer hover:text-white transition"
     >
-      Account
-    </button>
+        Account
+    </span>
   </div>
 </div>
 

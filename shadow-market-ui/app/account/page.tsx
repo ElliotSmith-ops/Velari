@@ -31,14 +31,29 @@ export default function AccountPage() {
   const [selectedQuery, setSelectedQuery] = useState('')
   const [showCreditOptions, setShowCreditOptions] = useState(false)
 
+  const getSessionAndLoad = async () => {
+    const { data: sessionData } = await supabase.auth.getSession()
+    const user = sessionData?.session?.user
+  
+    if (!user) return router.push('/')
+  
+    setUserId(user.id)
+  
+    const { data: profile } = await supabase
+      .from('users')
+      .select('username, credits')
+      .eq('id', user.id)
+      .single()
+  
+    if (profile) {
+      setUsername(profile.username)
+      setCredits(profile.credits)
+      fetchQueries(profile.username)
+    }
+  }
+  
   useEffect(() => {
-    const userData = localStorage.getItem('fake_user')
-    if (!userData) return router.push('/')
-    const parsed = JSON.parse(userData)
-    setUsername(parsed.username)
-    setUserId(parsed.user_id)
-    fetchCredits(parsed.username)
-    fetchQueries(parsed.username)
+    getSessionAndLoad()
   }, [])
 
   const fetchCredits = async (username: string) => {
@@ -80,7 +95,7 @@ export default function AccountPage() {
     localStorage.removeItem('fake_user')
     router.push('/')
   }
-  
+
   const handleBuyCredits = async (priceId: string) => {
     const res = await fetch('/api/create-checkout-session', {
       method: 'POST',

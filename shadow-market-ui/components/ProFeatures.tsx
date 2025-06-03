@@ -225,12 +225,12 @@ export default function ProFeatures({ userId }: ProFeaturesProps) {
 >
   Purchase Credits
 </button>
-    <span
-      onClick={handleSignOut}
-      className="cursor-pointer hover:text-white transition"
-    >
-      Sign Out
-    </span>
+  <span
+    onClick={() => router.push('/account')}
+    className="cursor-pointer hover:text-white transition"
+  >
+    Account
+  </span>
   </div>
 </div>
 
