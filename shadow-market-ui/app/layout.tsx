@@ -1,7 +1,7 @@
 import './globals.css'
 import { DM_Mono } from 'next/font/google'
-import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'] })
 
@@ -35,22 +35,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark overflow-x-hidden">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWV2EHMNBG"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-MWV2EHMNBG');
-        </script>
-      </head>
-
-        {/* Optional: Support for PNG or SVG */}
-        {/* <link rel="icon" type="image/png" href="/favicon.png" /> */}
       <body className={`${dmMono.className} overflow-x-hidden`}>
         <Toaster position="top-center" />
+        <GoogleAnalytics />
         {children}
       </body>
     </html>
