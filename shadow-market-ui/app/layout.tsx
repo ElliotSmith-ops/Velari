@@ -15,7 +15,7 @@ export const metadata = {
     siteName: 'SurfRider',
     images: [
       {
-        url: 'https://surfrider.io/surfridericonblack.png',
+        url: 'https://surfrider.io/og.png',
         width: 1200,
         height: 630,
         alt: 'Surfrider logo glowing on black background',
@@ -28,7 +28,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'SurfRider – Startup Signals powered by AI',
     description: 'Discover rising business opportunities in real-time.',
-    images: ['https://surfrider.io/surfridericonblack.png'],
+    images: ['https://surfrider.io/og.png'],
   },
 }
 

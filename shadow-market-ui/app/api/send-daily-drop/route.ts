@@ -14,10 +14,12 @@ export async function GET() {
   if (subError || !subscribers || subscribers.length === 0) {
     return NextResponse.json({ error: 'No subscribers found' }, { status: 400 })
   }
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
 
   const { data: insights, error: insightError } = await supabase
     .from('insights')
     .select('id, signal, why_it_matters')
+    .gte('created_at', oneDayAgo)
     .order('interesting_score', { ascending: false })
     .limit(10)
 
