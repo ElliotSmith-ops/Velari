@@ -7,7 +7,7 @@ import SignInSignUpMobile from '@/components/SignInSignUpMobile'
 import ProFeaturesMobile from '@/components/ProFeaturesMobile'
 
 export default function ProMobilePage() {
-  const [userId, setUserId] = useState<string | null>(null)
+  const [signedIn, setSignedIn] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -16,22 +16,7 @@ export default function ProMobilePage() {
         data: { session }
       } = await supabase.auth.getSession()
 
-      if (session?.user) {
-        const id = session.user.id
-        localStorage.setItem('fake_user', JSON.stringify({ id }))
-        setUserId(id)
-      } else {
-        const storedUser = localStorage.getItem('fake_user')
-        if (storedUser) {
-          try {
-            const parsed = JSON.parse(storedUser)
-            setUserId(parsed.id)
-          } catch {
-            setUserId(null)
-          }
-        }
-      }
-
+      setSignedIn(!!session?.user)
       setLoading(false)
     }
 
@@ -42,7 +27,7 @@ export default function ProMobilePage() {
 
   return (
     <main className="min-h-screen px-4 text-white bg-zinc-900 pb-20">
-      {userId ? <ProFeaturesMobile userId={userId} /> : <SignInSignUpMobile />}
+      {signedIn ? <ProFeaturesMobile /> : <SignInSignUpMobile />}
     </main>
   )
 }
