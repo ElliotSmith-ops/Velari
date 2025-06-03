@@ -177,13 +177,11 @@ export default function ProFeaturesMobile({ userId }: ProFeaturesMobileProps) {
 </button>
     <button
       onClick={async () => {
-        await supabase.auth.signOut()
-        localStorage.removeItem('fake_user')
-        window.location.href = '/'
+        window.location.href = '/account'
       }}
       className="hover:text-white transition"
     >
-      Sign Out
+      Account
     </button>
   </div>
 </div>
