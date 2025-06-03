@@ -64,14 +64,15 @@ export default function AccountPage() {
     const confirm = window.confirm('Are you sure you want to delete your account? This cannot be undone.')
     if (!confirm) return
   
-    const { error } = await fetch('/api/delete-user', {
+    const res = await fetch('/api/delete-user', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId })
     })
+    const data = await res.json()
   
-    if (error) {
-      toast.error('Failed to delete account')
+    if (!res.ok) {
+      toast.error(data.error || 'Failed to delete account')
       return
     }
   
@@ -79,7 +80,7 @@ export default function AccountPage() {
     localStorage.removeItem('fake_user')
     router.push('/')
   }
-
+  
   const handleBuyCredits = async (priceId: string) => {
     const res = await fetch('/api/create-checkout-session', {
       method: 'POST',
