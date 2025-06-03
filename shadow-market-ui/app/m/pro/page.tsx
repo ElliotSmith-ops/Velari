@@ -12,11 +12,13 @@ export default function ProMobilePage() {
 
   useEffect(() => {
     const init = async () => {
-      const {
-        data: { session }
-      } = await supabase.auth.getSession()
-
-      setSignedIn(!!session?.user)
+        const { data: sessionData } = await supabase.auth.getSession()
+        const user = sessionData?.session?.user
+        
+        if (user) {
+          localStorage.setItem('fake_user', JSON.stringify({ id: user.id }))
+          setSignedIn(true)
+        }
       setLoading(false)
     }
 
